@@ -1,0 +1,1441 @@
+===============================================================================================
+BITPIN V2 FACTOR DIAGNOSTIC
+File: market_data_v2.csv
+Rows: 5592
+===============================================================================================
+
+###############################################################################################
+SYMBOL: ADA_USDT
+ROWS: 698
+###############################################################################################
+
+--------------------------------------------------------------------------------
+HORIZON: 5
+Approx observations: 693
+
+OBI10 TOP 10% LONG
+Signals: 70
+Avg future move (%): -0.0051
+Median future move (%): -0.0024
+Avg absolute move (%): 0.0427
+Positive (%): 38.57
+Negative (%): 51.43
+Avg spread (%): 0.1258
+
+OBI10 BOTTOM 10% SHORT
+Signals: 70
+Avg future move (%): 0.0068
+Median future move (%): 0.011
+Avg absolute move (%): 0.0838
+Positive (%): 52.86
+Negative (%): 45.71
+Avg spread (%): 0.1526
+
+OFI TOP 10% LONG
+Signals: 70
+Avg future move (%): 0.0053
+Median future move (%): -0.0024
+Avg absolute move (%): 0.058
+Positive (%): 47.14
+Negative (%): 51.43
+Avg spread (%): 0.1237
+
+OFI BOTTOM 10% SHORT
+Signals: 70
+Avg future move (%): -0.0194
+Median future move (%): -0.0024
+Avg absolute move (%): 0.0616
+Positive (%): 44.29
+Negative (%): 52.86
+Avg spread (%): 0.176
+
+OBI10 + OFI TOP 10% LONG
+Signals: 70
+Avg future move (%): -0.0054
+Median future move (%): -0.0024
+Avg absolute move (%): 0.043
+Positive (%): 38.57
+Negative (%): 51.43
+Avg spread (%): 0.1251
+
+OBI10 + OFI BOTTOM 10% SHORT
+Signals: 70
+Avg future move (%): 0.0093
+Median future move (%): 0.0122
+Avg absolute move (%): 0.0817
+Positive (%): 54.29
+Negative (%): 44.29
+Avg spread (%): 0.1533
+
+--------------------------------------------------------------------------------
+HORIZON: 15
+Approx observations: 683
+
+OBI10 TOP 10% LONG
+Signals: 69
+Avg future move (%): -0.0151
+Median future move (%): -0.0024
+Avg absolute move (%): 0.0657
+Positive (%): 44.93
+Negative (%): 53.62
+Avg spread (%): 0.1256
+
+OBI10 BOTTOM 10% SHORT
+Signals: 69
+Avg future move (%): -0.0306
+Median future move (%): -0.0341
+Avg absolute move (%): 0.1294
+Positive (%): 39.13
+Negative (%): 59.42
+Avg spread (%): 0.1527
+
+OFI TOP 10% LONG
+Signals: 69
+Avg future move (%): 0.0148
+Median future move (%): 0.0049
+Avg absolute move (%): 0.1006
+Positive (%): 52.17
+Negative (%): 44.93
+Avg spread (%): 0.1222
+
+OFI BOTTOM 10% SHORT
+Signals: 69
+Avg future move (%): -0.0443
+Median future move (%): -0.0416
+Avg absolute move (%): 0.1095
+Positive (%): 37.68
+Negative (%): 62.32
+Avg spread (%): 0.1763
+
+OBI10 + OFI TOP 10% LONG
+Signals: 69
+Avg future move (%): -0.0154
+Median future move (%): -0.0024
+Avg absolute move (%): 0.0661
+Positive (%): 44.93
+Negative (%): 53.62
+Avg spread (%): 0.1249
+
+OBI10 + OFI BOTTOM 10% SHORT
+Signals: 69
+Avg future move (%): -0.03
+Median future move (%): -0.0341
+Avg absolute move (%): 0.1288
+Positive (%): 39.13
+Negative (%): 59.42
+Avg spread (%): 0.1534
+
+--------------------------------------------------------------------------------
+HORIZON: 30
+Approx observations: 668
+
+OBI10 TOP 10% LONG
+Signals: 67
+Avg future move (%): -0.0277
+Median future move (%): -0.0049
+Avg absolute move (%): 0.0847
+Positive (%): 41.79
+Negative (%): 50.75
+Avg spread (%): 0.1266
+
+OBI10 BOTTOM 10% SHORT
+Signals: 67
+Avg future move (%): -0.0597
+Median future move (%): -0.0956
+Avg absolute move (%): 0.1999
+Positive (%): 32.84
+Negative (%): 67.16
+Avg spread (%): 0.1534
+
+OFI TOP 10% LONG
+Signals: 67
+Avg future move (%): 0.0032
+Median future move (%): 0.0024
+Avg absolute move (%): 0.1353
+Positive (%): 53.73
+Negative (%): 46.27
+Avg spread (%): 0.1229
+
+OFI BOTTOM 10% SHORT
+Signals: 67
+Avg future move (%): -0.0511
+Median future move (%): -0.0464
+Avg absolute move (%): 0.1416
+Positive (%): 32.84
+Negative (%): 67.16
+Avg spread (%): 0.1766
+
+OBI10 + OFI TOP 10% LONG
+Signals: 67
+Avg future move (%): -0.0281
+Median future move (%): -0.0049
+Avg absolute move (%): 0.0851
+Positive (%): 41.79
+Negative (%): 52.24
+Avg spread (%): 0.1259
+
+OBI10 + OFI BOTTOM 10% SHORT
+Signals: 67
+Avg future move (%): -0.0577
+Median future move (%): -0.0956
+Avg absolute move (%): 0.2005
+Positive (%): 32.84
+Negative (%): 67.16
+Avg spread (%): 0.1541
+
+###############################################################################################
+SYMBOL: BNB_USDT
+ROWS: 700
+###############################################################################################
+
+--------------------------------------------------------------------------------
+HORIZON: 5
+Approx observations: 695
+
+OBI10 TOP 10% LONG
+Signals: 70
+Avg future move (%): 0.0058
+Median future move (%): -0.001
+Avg absolute move (%): 0.02
+Positive (%): 47.14
+Negative (%): 51.43
+Avg spread (%): 0.1593
+
+OBI10 BOTTOM 10% SHORT
+Signals: 70
+Avg future move (%): 0.0211
+Median future move (%): 0.0032
+Avg absolute move (%): 0.0384
+Positive (%): 54.29
+Negative (%): 45.71
+Avg spread (%): 0.1341
+
+OFI TOP 10% LONG
+Signals: 70
+Avg future move (%): -0.014
+Median future move (%): -0.0033
+Avg absolute move (%): 0.0273
+Positive (%): 37.14
+Negative (%): 62.86
+Avg spread (%): 0.1453
+
+OFI BOTTOM 10% SHORT
+Signals: 70
+Avg future move (%): -0.0003
+Median future move (%): 0.0017
+Avg absolute move (%): 0.0183
+Positive (%): 54.29
+Negative (%): 44.29
+Avg spread (%): 0.1566
+
+OBI10 + OFI TOP 10% LONG
+Signals: 70
+Avg future move (%): 0.0021
+Median future move (%): -0.0036
+Avg absolute move (%): 0.0199
+Positive (%): 41.43
+Negative (%): 57.14
+Avg spread (%): 0.1573
+
+OBI10 + OFI BOTTOM 10% SHORT
+Signals: 70
+Avg future move (%): 0.0215
+Median future move (%): 0.0032
+Avg absolute move (%): 0.0392
+Positive (%): 54.29
+Negative (%): 45.71
+Avg spread (%): 0.1366
+
+--------------------------------------------------------------------------------
+HORIZON: 15
+Approx observations: 685
+
+OBI10 TOP 10% LONG
+Signals: 69
+Avg future move (%): 0.0187
+Median future move (%): 0.0192
+Avg absolute move (%): 0.046
+Positive (%): 59.42
+Negative (%): 40.58
+Avg spread (%): 0.1596
+
+OBI10 BOTTOM 10% SHORT
+Signals: 69
+Avg future move (%): 0.1111
+Median future move (%): 0.0235
+Avg absolute move (%): 0.1344
+Positive (%): 65.22
+Negative (%): 34.78
+Avg spread (%): 0.1354
+
+OFI TOP 10% LONG
+Signals: 69
+Avg future move (%): -0.032
+Median future move (%): -0.0126
+Avg absolute move (%): 0.0548
+Positive (%): 42.03
+Negative (%): 57.97
+Avg spread (%): 0.1449
+
+OFI BOTTOM 10% SHORT
+Signals: 69
+Avg future move (%): 0.0033
+Median future move (%): -0.0043
+Avg absolute move (%): 0.0352
+Positive (%): 47.83
+Negative (%): 52.17
+Avg spread (%): 0.1565
+
+OBI10 + OFI TOP 10% LONG
+Signals: 69
+Avg future move (%): 0.01
+Median future move (%): 0.0068
+Avg absolute move (%): 0.0428
+Positive (%): 56.52
+Negative (%): 43.48
+Avg spread (%): 0.1577
+
+OBI10 + OFI BOTTOM 10% SHORT
+Signals: 69
+Avg future move (%): 0.111
+Median future move (%): 0.0235
+Avg absolute move (%): 0.1346
+Positive (%): 65.22
+Negative (%): 34.78
+Avg spread (%): 0.137
+
+--------------------------------------------------------------------------------
+HORIZON: 30
+Approx observations: 670
+
+OBI10 TOP 10% LONG
+Signals: 67
+Avg future move (%): 0.0465
+Median future move (%): 0.0563
+Avg absolute move (%): 0.0802
+Positive (%): 68.66
+Negative (%): 31.34
+Avg spread (%): 0.1599
+
+OBI10 BOTTOM 10% SHORT
+Signals: 67
+Avg future move (%): 0.2141
+Median future move (%): 0.0465
+Avg absolute move (%): 0.2314
+Positive (%): 74.63
+Negative (%): 25.37
+Avg spread (%): 0.1346
+
+OFI TOP 10% LONG
+Signals: 67
+Avg future move (%): -0.0332
+Median future move (%): -0.0279
+Avg absolute move (%): 0.0697
+Positive (%): 35.82
+Negative (%): 64.18
+Avg spread (%): 0.1446
+
+OFI BOTTOM 10% SHORT
+Signals: 67
+Avg future move (%): 0.0236
+Median future move (%): 0.0114
+Avg absolute move (%): 0.0576
+Positive (%): 61.19
+Negative (%): 38.81
+Avg spread (%): 0.1564
+
+OBI10 + OFI TOP 10% LONG
+Signals: 67
+Avg future move (%): 0.0329
+Median future move (%): 0.0405
+Avg absolute move (%): 0.0728
+Positive (%): 59.7
+Negative (%): 40.3
+Avg spread (%): 0.1581
+
+OBI10 + OFI BOTTOM 10% SHORT
+Signals: 67
+Avg future move (%): 0.2139
+Median future move (%): 0.0465
+Avg absolute move (%): 0.2316
+Positive (%): 74.63
+Negative (%): 25.37
+Avg spread (%): 0.1342
+
+###############################################################################################
+SYMBOL: BTC_USDT
+ROWS: 699
+###############################################################################################
+
+--------------------------------------------------------------------------------
+HORIZON: 5
+Approx observations: 694
+
+OBI10 TOP 10% LONG
+Signals: 70
+Avg future move (%): -0.0029
+Median future move (%): 0.0036
+Avg absolute move (%): 0.0339
+Positive (%): 57.14
+Negative (%): 42.86
+Avg spread (%): 0.099
+
+OBI10 BOTTOM 10% SHORT
+Signals: 70
+Avg future move (%): 0.0129
+Median future move (%): -0.0009
+Avg absolute move (%): 0.0493
+Positive (%): 45.71
+Negative (%): 54.29
+Avg spread (%): 0.0746
+
+OFI TOP 10% LONG
+Signals: 70
+Avg future move (%): -0.0107
+Median future move (%): -0.001
+Avg absolute move (%): 0.0237
+Positive (%): 28.57
+Negative (%): 71.43
+Avg spread (%): 0.0816
+
+OFI BOTTOM 10% SHORT
+Signals: 70
+Avg future move (%): 0.005
+Median future move (%): 0.0002
+Avg absolute move (%): 0.0346
+Positive (%): 54.29
+Negative (%): 42.86
+Avg spread (%): 0.0914
+
+OBI10 + OFI TOP 10% LONG
+Signals: 70
+Avg future move (%): -0.0023
+Median future move (%): 0.0027
+Avg absolute move (%): 0.0339
+Positive (%): 57.14
+Negative (%): 42.86
+Avg spread (%): 0.098
+
+OBI10 + OFI BOTTOM 10% SHORT
+Signals: 70
+Avg future move (%): 0.0132
+Median future move (%): -0.0014
+Avg absolute move (%): 0.0498
+Positive (%): 44.29
+Negative (%): 55.71
+Avg spread (%): 0.0763
+
+--------------------------------------------------------------------------------
+HORIZON: 15
+Approx observations: 684
+
+OBI10 TOP 10% LONG
+Signals: 69
+Avg future move (%): -0.0024
+Median future move (%): 0.0036
+Avg absolute move (%): 0.0431
+Positive (%): 53.62
+Negative (%): 46.38
+Avg spread (%): 0.0991
+
+OBI10 BOTTOM 10% SHORT
+Signals: 69
+Avg future move (%): 0.0173
+Median future move (%): 0.0005
+Avg absolute move (%): 0.0841
+Positive (%): 50.72
+Negative (%): 49.28
+Avg spread (%): 0.0749
+
+OFI TOP 10% LONG
+Signals: 69
+Avg future move (%): -0.0155
+Median future move (%): -0.0132
+Avg absolute move (%): 0.0503
+Positive (%): 40.58
+Negative (%): 59.42
+Avg spread (%): 0.0795
+
+OFI BOTTOM 10% SHORT
+Signals: 69
+Avg future move (%): 0.0085
+Median future move (%): 0.0043
+Avg absolute move (%): 0.0651
+Positive (%): 57.97
+Negative (%): 42.03
+Avg spread (%): 0.0907
+
+OBI10 + OFI TOP 10% LONG
+Signals: 69
+Avg future move (%): -0.0034
+Median future move (%): 0.0025
+Avg absolute move (%): 0.043
+Positive (%): 52.17
+Negative (%): 47.83
+Avg spread (%): 0.0978
+
+OBI10 + OFI BOTTOM 10% SHORT
+Signals: 69
+Avg future move (%): 0.0215
+Median future move (%): 0.0006
+Avg absolute move (%): 0.085
+Positive (%): 52.17
+Negative (%): 47.83
+Avg spread (%): 0.0763
+
+--------------------------------------------------------------------------------
+HORIZON: 30
+Approx observations: 669
+
+OBI10 TOP 10% LONG
+Signals: 67
+Avg future move (%): -0.0001
+Median future move (%): 0.0103
+Avg absolute move (%): 0.056
+Positive (%): 64.18
+Negative (%): 35.82
+Avg spread (%): 0.0989
+
+OBI10 BOTTOM 10% SHORT
+Signals: 67
+Avg future move (%): -0.0057
+Median future move (%): 0.002
+Avg absolute move (%): 0.0967
+Positive (%): 58.21
+Negative (%): 41.79
+Avg spread (%): 0.0739
+
+OFI TOP 10% LONG
+Signals: 67
+Avg future move (%): -0.0348
+Median future move (%): -0.0342
+Avg absolute move (%): 0.0632
+Positive (%): 31.34
+Negative (%): 68.66
+Avg spread (%): 0.0789
+
+OFI BOTTOM 10% SHORT
+Signals: 67
+Avg future move (%): 0.0327
+Median future move (%): 0.0273
+Avg absolute move (%): 0.0802
+Positive (%): 62.69
+Negative (%): 37.31
+Avg spread (%): 0.0868
+
+OBI10 + OFI TOP 10% LONG
+Signals: 67
+Avg future move (%): -0.0054
+Median future move (%): 0.0063
+Avg absolute move (%): 0.054
+Positive (%): 56.72
+Negative (%): 43.28
+Avg spread (%): 0.0988
+
+OBI10 + OFI BOTTOM 10% SHORT
+Signals: 67
+Avg future move (%): -0.003
+Median future move (%): 0.002
+Avg absolute move (%): 0.0967
+Positive (%): 58.21
+Negative (%): 41.79
+Avg spread (%): 0.0754
+
+###############################################################################################
+SYMBOL: DOGE_USDT
+ROWS: 698
+###############################################################################################
+
+--------------------------------------------------------------------------------
+HORIZON: 5
+Approx observations: 693
+
+OBI10 TOP 10% LONG
+Signals: 70
+Avg future move (%): -0.01
+Median future move (%): 0.0
+Avg absolute move (%): 0.0384
+Positive (%): 44.29
+Negative (%): 42.86
+Avg spread (%): 0.1547
+
+OBI10 BOTTOM 10% SHORT
+Signals: 70
+Avg future move (%): -0.0071
+Median future move (%): -0.0
+Avg absolute move (%): 0.0428
+Positive (%): 41.43
+Negative (%): 47.14
+Avg spread (%): 0.1647
+
+OFI TOP 10% LONG
+Signals: 70
+Avg future move (%): 0.0016
+Median future move (%): 0.0
+Avg absolute move (%): 0.0358
+Positive (%): 45.71
+Negative (%): 44.29
+Avg spread (%): 0.1432
+
+OFI BOTTOM 10% SHORT
+Signals: 70
+Avg future move (%): -0.0065
+Median future move (%): -0.003
+Avg absolute move (%): 0.0418
+Positive (%): 35.71
+Negative (%): 50.0
+Avg spread (%): 0.1637
+
+OBI10 + OFI TOP 10% LONG
+Signals: 70
+Avg future move (%): -0.01
+Median future move (%): 0.0
+Avg absolute move (%): 0.0384
+Positive (%): 44.29
+Negative (%): 42.86
+Avg spread (%): 0.1547
+
+OBI10 + OFI BOTTOM 10% SHORT
+Signals: 70
+Avg future move (%): -0.0071
+Median future move (%): -0.0
+Avg absolute move (%): 0.0428
+Positive (%): 41.43
+Negative (%): 47.14
+Avg spread (%): 0.1647
+
+--------------------------------------------------------------------------------
+HORIZON: 15
+Approx observations: 683
+
+OBI10 TOP 10% LONG
+Signals: 69
+Avg future move (%): -0.0247
+Median future move (%): -0.012
+Avg absolute move (%): 0.0695
+Positive (%): 42.03
+Negative (%): 56.52
+Avg spread (%): 0.1554
+
+OBI10 BOTTOM 10% SHORT
+Signals: 69
+Avg future move (%): -0.0214
+Median future move (%): -0.018
+Avg absolute move (%): 0.0668
+Positive (%): 43.48
+Negative (%): 53.62
+Avg spread (%): 0.1629
+
+OFI TOP 10% LONG
+Signals: 69
+Avg future move (%): -0.0006
+Median future move (%): 0.0
+Avg absolute move (%): 0.0699
+Positive (%): 47.83
+Negative (%): 47.83
+Avg spread (%): 0.1443
+
+OFI BOTTOM 10% SHORT
+Signals: 69
+Avg future move (%): -0.0083
+Median future move (%): -0.012
+Avg absolute move (%): 0.0701
+Positive (%): 44.93
+Negative (%): 52.17
+Avg spread (%): 0.1639
+
+OBI10 + OFI TOP 10% LONG
+Signals: 69
+Avg future move (%): -0.0247
+Median future move (%): -0.012
+Avg absolute move (%): 0.0695
+Positive (%): 42.03
+Negative (%): 56.52
+Avg spread (%): 0.1554
+
+OBI10 + OFI BOTTOM 10% SHORT
+Signals: 69
+Avg future move (%): -0.0214
+Median future move (%): -0.018
+Avg absolute move (%): 0.0668
+Positive (%): 43.48
+Negative (%): 53.62
+Avg spread (%): 0.1634
+
+--------------------------------------------------------------------------------
+HORIZON: 30
+Approx observations: 668
+
+OBI10 TOP 10% LONG
+Signals: 67
+Avg future move (%): -0.0272
+Median future move (%): -0.024
+Avg absolute move (%): 0.1143
+Positive (%): 46.27
+Negative (%): 53.73
+Avg spread (%): 0.1556
+
+OBI10 BOTTOM 10% SHORT
+Signals: 67
+Avg future move (%): -0.0437
+Median future move (%): -0.054
+Avg absolute move (%): 0.0879
+Positive (%): 23.88
+Negative (%): 74.63
+Avg spread (%): 0.1617
+
+OFI TOP 10% LONG
+Signals: 67
+Avg future move (%): 0.0196
+Median future move (%): 0.0479
+Avg absolute move (%): 0.1011
+Positive (%): 64.18
+Negative (%): 31.34
+Avg spread (%): 0.1434
+
+OFI BOTTOM 10% SHORT
+Signals: 67
+Avg future move (%): -0.0202
+Median future move (%): -0.03
+Avg absolute move (%): 0.1025
+Positive (%): 26.87
+Negative (%): 73.13
+Avg spread (%): 0.1636
+
+OBI10 + OFI TOP 10% LONG
+Signals: 67
+Avg future move (%): -0.0272
+Median future move (%): -0.024
+Avg absolute move (%): 0.1143
+Positive (%): 46.27
+Negative (%): 53.73
+Avg spread (%): 0.1556
+
+OBI10 + OFI BOTTOM 10% SHORT
+Signals: 67
+Avg future move (%): -0.0465
+Median future move (%): -0.054
+Avg absolute move (%): 0.0857
+Positive (%): 22.39
+Negative (%): 76.12
+Avg spread (%): 0.1636
+
+###############################################################################################
+SYMBOL: ETH_USDT
+ROWS: 700
+###############################################################################################
+
+--------------------------------------------------------------------------------
+HORIZON: 5
+Approx observations: 695
+
+OBI10 TOP 10% LONG
+Signals: 70
+Avg future move (%): -0.0216
+Median future move (%): 0.0026
+Avg absolute move (%): 0.0633
+Positive (%): 52.86
+Negative (%): 47.14
+Avg spread (%): 0.1401
+
+OBI10 BOTTOM 10% SHORT
+Signals: 70
+Avg future move (%): 0.0093
+Median future move (%): 0.0118
+Avg absolute move (%): 0.0376
+Positive (%): 65.71
+Negative (%): 34.29
+Avg spread (%): 0.1313
+
+OFI TOP 10% LONG
+Signals: 70
+Avg future move (%): -0.0094
+Median future move (%): -0.0068
+Avg absolute move (%): 0.0434
+Positive (%): 41.43
+Negative (%): 58.57
+Avg spread (%): 0.1361
+
+OFI BOTTOM 10% SHORT
+Signals: 70
+Avg future move (%): 0.0115
+Median future move (%): -0.0029
+Avg absolute move (%): 0.049
+Positive (%): 42.86
+Negative (%): 57.14
+Avg spread (%): 0.15
+
+OBI10 + OFI TOP 10% LONG
+Signals: 70
+Avg future move (%): -0.0299
+Median future move (%): -0.002
+Avg absolute move (%): 0.0624
+Positive (%): 45.71
+Negative (%): 54.29
+Avg spread (%): 0.1305
+
+OBI10 + OFI BOTTOM 10% SHORT
+Signals: 70
+Avg future move (%): 0.0122
+Median future move (%): 0.0142
+Avg absolute move (%): 0.0369
+Positive (%): 67.14
+Negative (%): 32.86
+Avg spread (%): 0.1358
+
+--------------------------------------------------------------------------------
+HORIZON: 15
+Approx observations: 685
+
+OBI10 TOP 10% LONG
+Signals: 69
+Avg future move (%): -0.0351
+Median future move (%): 0.0046
+Avg absolute move (%): 0.1138
+Positive (%): 52.17
+Negative (%): 47.83
+Avg spread (%): 0.1397
+
+OBI10 BOTTOM 10% SHORT
+Signals: 69
+Avg future move (%): 0.0539
+Median future move (%): 0.0362
+Avg absolute move (%): 0.0847
+Positive (%): 68.12
+Negative (%): 31.88
+Avg spread (%): 0.1286
+
+OFI TOP 10% LONG
+Signals: 69
+Avg future move (%): -0.0088
+Median future move (%): 0.0109
+Avg absolute move (%): 0.0766
+Positive (%): 53.62
+Negative (%): 46.38
+Avg spread (%): 0.1365
+
+OFI BOTTOM 10% SHORT
+Signals: 69
+Avg future move (%): 0.0054
+Median future move (%): 0.0028
+Avg absolute move (%): 0.0705
+Positive (%): 50.72
+Negative (%): 49.28
+Avg spread (%): 0.1513
+
+OBI10 + OFI TOP 10% LONG
+Signals: 69
+Avg future move (%): -0.0522
+Median future move (%): -0.0036
+Avg absolute move (%): 0.109
+Positive (%): 47.83
+Negative (%): 52.17
+Avg spread (%): 0.1308
+
+OBI10 + OFI BOTTOM 10% SHORT
+Signals: 69
+Avg future move (%): 0.0479
+Median future move (%): 0.0322
+Avg absolute move (%): 0.0884
+Positive (%): 66.67
+Negative (%): 33.33
+Avg spread (%): 0.1329
+
+--------------------------------------------------------------------------------
+HORIZON: 30
+Approx observations: 670
+
+OBI10 TOP 10% LONG
+Signals: 67
+Avg future move (%): -0.0565
+Median future move (%): -0.0415
+Avg absolute move (%): 0.1693
+Positive (%): 35.82
+Negative (%): 64.18
+Avg spread (%): 0.1406
+
+OBI10 BOTTOM 10% SHORT
+Signals: 67
+Avg future move (%): 0.1039
+Median future move (%): 0.0586
+Avg absolute move (%): 0.1288
+Positive (%): 80.6
+Negative (%): 19.4
+Avg spread (%): 0.1306
+
+OFI TOP 10% LONG
+Signals: 67
+Avg future move (%): -0.0244
+Median future move (%): -0.0334
+Avg absolute move (%): 0.1076
+Positive (%): 41.79
+Negative (%): 58.21
+Avg spread (%): 0.136
+
+OFI BOTTOM 10% SHORT
+Signals: 67
+Avg future move (%): 0.0143
+Median future move (%): 0.0018
+Avg absolute move (%): 0.0877
+Positive (%): 50.75
+Negative (%): 49.25
+Avg spread (%): 0.1485
+
+OBI10 + OFI TOP 10% LONG
+Signals: 67
+Avg future move (%): -0.0774
+Median future move (%): -0.0415
+Avg absolute move (%): 0.166
+Positive (%): 40.3
+Negative (%): 59.7
+Avg spread (%): 0.1308
+
+OBI10 + OFI BOTTOM 10% SHORT
+Signals: 67
+Avg future move (%): 0.0998
+Median future move (%): 0.0575
+Avg absolute move (%): 0.1367
+Positive (%): 79.1
+Negative (%): 20.9
+Avg spread (%): 0.1351
+
+###############################################################################################
+SYMBOL: SOL_USDT
+ROWS: 700
+###############################################################################################
+
+--------------------------------------------------------------------------------
+HORIZON: 5
+Approx observations: 695
+
+OBI10 TOP 10% LONG
+Signals: 70
+Avg future move (%): 0.0007
+Median future move (%): 0.0005
+Avg absolute move (%): 0.014
+Positive (%): 51.43
+Negative (%): 37.14
+Avg spread (%): 0.1177
+
+OBI10 BOTTOM 10% SHORT
+Signals: 70
+Avg future move (%): 0.0316
+Median future move (%): 0.0005
+Avg absolute move (%): 0.036
+Positive (%): 54.29
+Negative (%): 28.57
+Avg spread (%): 0.0728
+
+OFI TOP 10% LONG
+Signals: 70
+Avg future move (%): -0.0092
+Median future move (%): -0.0003
+Avg absolute move (%): 0.0193
+Positive (%): 47.14
+Negative (%): 50.0
+Avg spread (%): 0.0984
+
+OFI BOTTOM 10% SHORT
+Signals: 70
+Avg future move (%): 0.0142
+Median future move (%): 0.0013
+Avg absolute move (%): 0.0291
+Positive (%): 52.86
+Negative (%): 42.86
+Avg spread (%): 0.112
+
+OBI10 + OFI TOP 10% LONG
+Signals: 70
+Avg future move (%): 0.0001
+Median future move (%): 0.0003
+Avg absolute move (%): 0.0143
+Positive (%): 50.0
+Negative (%): 40.0
+Avg spread (%): 0.1181
+
+OBI10 + OFI BOTTOM 10% SHORT
+Signals: 70
+Avg future move (%): 0.0323
+Median future move (%): 0.0005
+Avg absolute move (%): 0.0367
+Positive (%): 55.71
+Negative (%): 27.14
+Avg spread (%): 0.0734
+
+--------------------------------------------------------------------------------
+HORIZON: 15
+Approx observations: 685
+
+OBI10 TOP 10% LONG
+Signals: 69
+Avg future move (%): 0.0001
+Median future move (%): 0.0
+Avg absolute move (%): 0.0174
+Positive (%): 44.93
+Negative (%): 46.38
+Avg spread (%): 0.1174
+
+OBI10 BOTTOM 10% SHORT
+Signals: 69
+Avg future move (%): 0.0686
+Median future move (%): 0.026
+Avg absolute move (%): 0.0714
+Positive (%): 65.22
+Negative (%): 24.64
+Avg spread (%): 0.0772
+
+OFI TOP 10% LONG
+Signals: 69
+Avg future move (%): -0.0218
+Median future move (%): 0.001
+Avg absolute move (%): 0.045
+Positive (%): 52.17
+Negative (%): 44.93
+Avg spread (%): 0.0982
+
+OFI BOTTOM 10% SHORT
+Signals: 69
+Avg future move (%): 0.0192
+Median future move (%): 0.0005
+Avg absolute move (%): 0.0456
+Positive (%): 53.62
+Negative (%): 43.48
+Avg spread (%): 0.1119
+
+OBI10 + OFI TOP 10% LONG
+Signals: 69
+Avg future move (%): -0.0005
+Median future move (%): 0.0
+Avg absolute move (%): 0.0174
+Positive (%): 42.03
+Negative (%): 49.28
+Avg spread (%): 0.1179
+
+OBI10 + OFI BOTTOM 10% SHORT
+Signals: 69
+Avg future move (%): 0.0687
+Median future move (%): 0.026
+Avg absolute move (%): 0.0715
+Positive (%): 65.22
+Negative (%): 24.64
+Avg spread (%): 0.0772
+
+--------------------------------------------------------------------------------
+HORIZON: 30
+Approx observations: 670
+
+OBI10 TOP 10% LONG
+Signals: 67
+Avg future move (%): -0.0007
+Median future move (%): -0.0055
+Avg absolute move (%): 0.0254
+Positive (%): 35.82
+Negative (%): 61.19
+Avg spread (%): 0.1175
+
+OBI10 BOTTOM 10% SHORT
+Signals: 67
+Avg future move (%): 0.1098
+Median future move (%): 0.0331
+Avg absolute move (%): 0.1186
+Positive (%): 82.09
+Negative (%): 10.45
+Avg spread (%): 0.0883
+
+OFI TOP 10% LONG
+Signals: 67
+Avg future move (%): -0.0249
+Median future move (%): -0.004
+Avg absolute move (%): 0.0625
+Positive (%): 43.28
+Negative (%): 56.72
+Avg spread (%): 0.0977
+
+OFI BOTTOM 10% SHORT
+Signals: 67
+Avg future move (%): 0.0379
+Median future move (%): 0.007
+Avg absolute move (%): 0.0746
+Positive (%): 61.19
+Negative (%): 38.81
+Avg spread (%): 0.1154
+
+OBI10 + OFI TOP 10% LONG
+Signals: 67
+Avg future move (%): -0.0113
+Median future move (%): -0.0065
+Avg absolute move (%): 0.0348
+Positive (%): 34.33
+Negative (%): 62.69
+Avg spread (%): 0.1165
+
+OBI10 + OFI BOTTOM 10% SHORT
+Signals: 67
+Avg future move (%): 0.1098
+Median future move (%): 0.0331
+Avg absolute move (%): 0.1186
+Positive (%): 82.09
+Negative (%): 10.45
+Avg spread (%): 0.0883
+
+###############################################################################################
+SYMBOL: XAUT_USDT
+ROWS: 697
+###############################################################################################
+
+--------------------------------------------------------------------------------
+HORIZON: 5
+Approx observations: 692
+
+OBI10 TOP 10% LONG
+Signals: 70
+Avg future move (%): -0.0024
+Median future move (%): 0.0
+Avg absolute move (%): 0.0207
+Positive (%): 44.29
+Negative (%): 42.86
+Avg spread (%): 0.1165
+
+OBI10 BOTTOM 10% SHORT
+Signals: 70
+Avg future move (%): -0.0092
+Median future move (%): -0.0002
+Avg absolute move (%): 0.0245
+Positive (%): 35.71
+Negative (%): 51.43
+Avg spread (%): 0.1356
+
+OFI TOP 10% LONG
+Signals: 71
+Avg future move (%): 0.0067
+Median future move (%): 0.0045
+Avg absolute move (%): 0.0181
+Positive (%): 63.38
+Negative (%): 32.39
+Avg spread (%): 0.0891
+
+OFI BOTTOM 10% SHORT
+Signals: 70
+Avg future move (%): 0.0053
+Median future move (%): 0.0007
+Avg absolute move (%): 0.0145
+Positive (%): 55.71
+Negative (%): 37.14
+Avg spread (%): 0.1119
+
+OBI10 + OFI TOP 10% LONG
+Signals: 70
+Avg future move (%): -0.0025
+Median future move (%): 0.0
+Avg absolute move (%): 0.0207
+Positive (%): 44.29
+Negative (%): 45.71
+Avg spread (%): 0.1151
+
+OBI10 + OFI BOTTOM 10% SHORT
+Signals: 70
+Avg future move (%): -0.0092
+Median future move (%): -0.0002
+Avg absolute move (%): 0.0245
+Positive (%): 35.71
+Negative (%): 51.43
+Avg spread (%): 0.136
+
+--------------------------------------------------------------------------------
+HORIZON: 15
+Approx observations: 682
+
+OBI10 TOP 10% LONG
+Signals: 69
+Avg future move (%): -0.009
+Median future move (%): 0.0
+Avg absolute move (%): 0.0292
+Positive (%): 49.28
+Negative (%): 47.83
+Avg spread (%): 0.1168
+
+OBI10 BOTTOM 10% SHORT
+Signals: 70
+Avg future move (%): -0.0172
+Median future move (%): -0.0017
+Avg absolute move (%): 0.0305
+Positive (%): 27.14
+Negative (%): 61.43
+Avg spread (%): 0.1356
+
+OFI TOP 10% LONG
+Signals: 69
+Avg future move (%): 0.0034
+Median future move (%): 0.0023
+Avg absolute move (%): 0.0177
+Positive (%): 52.17
+Negative (%): 44.93
+Avg spread (%): 0.0895
+
+OFI BOTTOM 10% SHORT
+Signals: 69
+Avg future move (%): 0.0075
+Median future move (%): 0.0014
+Avg absolute move (%): 0.0209
+Positive (%): 53.62
+Negative (%): 44.93
+Avg spread (%): 0.1123
+
+OBI10 + OFI TOP 10% LONG
+Signals: 70
+Avg future move (%): -0.0097
+Median future move (%): -0.0015
+Avg absolute move (%): 0.0287
+Positive (%): 45.71
+Negative (%): 51.43
+Avg spread (%): 0.1151
+
+OBI10 + OFI BOTTOM 10% SHORT
+Signals: 69
+Avg future move (%): -0.0175
+Median future move (%): -0.0017
+Avg absolute move (%): 0.0309
+Positive (%): 27.54
+Negative (%): 60.87
+Avg spread (%): 0.1362
+
+--------------------------------------------------------------------------------
+HORIZON: 30
+Approx observations: 667
+
+OBI10 TOP 10% LONG
+Signals: 67
+Avg future move (%): -0.0139
+Median future move (%): -0.0017
+Avg absolute move (%): 0.0293
+Positive (%): 41.79
+Negative (%): 52.24
+Avg spread (%): 0.1167
+
+OBI10 BOTTOM 10% SHORT
+Signals: 67
+Avg future move (%): -0.0275
+Median future move (%): -0.0044
+Avg absolute move (%): 0.0475
+Positive (%): 44.78
+Negative (%): 53.73
+Avg spread (%): 0.1375
+
+OFI TOP 10% LONG
+Signals: 67
+Avg future move (%): -0.0012
+Median future move (%): -0.0001
+Avg absolute move (%): 0.026
+Positive (%): 47.76
+Negative (%): 50.75
+Avg spread (%): 0.0902
+
+OFI BOTTOM 10% SHORT
+Signals: 67
+Avg future move (%): 0.011
+Median future move (%): 0.0098
+Avg absolute move (%): 0.025
+Positive (%): 56.72
+Negative (%): 41.79
+Avg spread (%): 0.1117
+
+OBI10 + OFI TOP 10% LONG
+Signals: 67
+Avg future move (%): -0.0189
+Median future move (%): -0.0085
+Avg absolute move (%): 0.0326
+Positive (%): 37.31
+Negative (%): 58.21
+Avg spread (%): 0.1144
+
+OBI10 + OFI BOTTOM 10% SHORT
+Signals: 67
+Avg future move (%): -0.0275
+Median future move (%): -0.0044
+Avg absolute move (%): 0.0475
+Positive (%): 44.78
+Negative (%): 53.73
+Avg spread (%): 0.1375
+
+###############################################################################################
+SYMBOL: XRP_USDT
+ROWS: 700
+###############################################################################################
+
+--------------------------------------------------------------------------------
+HORIZON: 5
+Approx observations: 695
+
+OBI10 TOP 10% LONG
+Signals: 70
+Avg future move (%): -0.0038
+Median future move (%): 0.0
+Avg absolute move (%): 0.0366
+Positive (%): 34.29
+Negative (%): 27.14
+Avg spread (%): 0.0719
+
+OBI10 BOTTOM 10% SHORT
+Signals: 70
+Avg future move (%): 0.0213
+Median future move (%): -0.0
+Avg absolute move (%): 0.0496
+Positive (%): 44.29
+Negative (%): 44.29
+Avg spread (%): 0.092
+
+OFI TOP 10% LONG
+Signals: 70
+Avg future move (%): -0.0091
+Median future move (%): -0.0006
+Avg absolute move (%): 0.0306
+Positive (%): 41.43
+Negative (%): 51.43
+Avg spread (%): 0.1341
+
+OFI BOTTOM 10% SHORT
+Signals: 70
+Avg future move (%): 0.0154
+Median future move (%): 0.0004
+Avg absolute move (%): 0.0264
+Positive (%): 51.43
+Negative (%): 41.43
+Avg spread (%): 0.139
+
+OBI10 + OFI TOP 10% LONG
+Signals: 70
+Avg future move (%): 0.004
+Median future move (%): 0.0
+Avg absolute move (%): 0.0268
+Positive (%): 34.29
+Negative (%): 24.29
+Avg spread (%): 0.0717
+
+OBI10 + OFI BOTTOM 10% SHORT
+Signals: 70
+Avg future move (%): 0.0259
+Median future move (%): -0.0
+Avg absolute move (%): 0.0477
+Positive (%): 48.57
+Negative (%): 38.57
+Avg spread (%): 0.093
+
+--------------------------------------------------------------------------------
+HORIZON: 15
+Approx observations: 685
+
+OBI10 TOP 10% LONG
+Signals: 69
+Avg future move (%): -0.0337
+Median future move (%): 0.0
+Avg absolute move (%): 0.1199
+Positive (%): 47.83
+Negative (%): 33.33
+Avg spread (%): 0.0711
+
+OBI10 BOTTOM 10% SHORT
+Signals: 69
+Avg future move (%): 0.0526
+Median future move (%): -0.0015
+Avg absolute move (%): 0.1068
+Positive (%): 49.28
+Negative (%): 50.72
+Avg spread (%): 0.0913
+
+OFI TOP 10% LONG
+Signals: 69
+Avg future move (%): -0.0242
+Median future move (%): -0.0186
+Avg absolute move (%): 0.0751
+Positive (%): 36.23
+Negative (%): 62.32
+Avg spread (%): 0.1346
+
+OFI BOTTOM 10% SHORT
+Signals: 69
+Avg future move (%): 0.0492
+Median future move (%): 0.0182
+Avg absolute move (%): 0.0768
+Positive (%): 60.87
+Negative (%): 37.68
+Avg spread (%): 0.1391
+
+OBI10 + OFI TOP 10% LONG
+Signals: 69
+Avg future move (%): -0.0048
+Median future move (%): 0.0
+Avg absolute move (%): 0.0941
+Positive (%): 49.28
+Negative (%): 31.88
+Avg spread (%): 0.0701
+
+OBI10 + OFI BOTTOM 10% SHORT
+Signals: 69
+Avg future move (%): 0.0536
+Median future move (%): 0.0432
+Avg absolute move (%): 0.1046
+Positive (%): 50.72
+Negative (%): 49.28
+Avg spread (%): 0.0924
+
+--------------------------------------------------------------------------------
+HORIZON: 30
+Approx observations: 670
+
+OBI10 TOP 10% LONG
+Signals: 67
+Avg future move (%): -0.0195
+Median future move (%): 0.0805
+Avg absolute move (%): 0.1602
+Positive (%): 65.67
+Negative (%): 34.33
+Avg spread (%): 0.0705
+
+OBI10 BOTTOM 10% SHORT
+Signals: 67
+Avg future move (%): 0.0356
+Median future move (%): -0.0153
+Avg absolute move (%): 0.1183
+Positive (%): 47.76
+Negative (%): 52.24
+Avg spread (%): 0.0903
+
+OFI TOP 10% LONG
+Signals: 67
+Avg future move (%): -0.0838
+Median future move (%): -0.0677
+Avg absolute move (%): 0.1249
+Positive (%): 32.84
+Negative (%): 67.16
+Avg spread (%): 0.1343
+
+OFI BOTTOM 10% SHORT
+Signals: 67
+Avg future move (%): 0.0857
+Median future move (%): 0.0582
+Avg absolute move (%): 0.1258
+Positive (%): 71.64
+Negative (%): 28.36
+Avg spread (%): 0.1389
+
+OBI10 + OFI TOP 10% LONG
+Signals: 67
+Avg future move (%): -0.0098
+Median future move (%): 0.0805
+Avg absolute move (%): 0.1501
+Positive (%): 65.67
+Negative (%): 34.33
+Avg spread (%): 0.0721
+
+OBI10 + OFI BOTTOM 10% SHORT
+Signals: 67
+Avg future move (%): 0.0416
+Median future move (%): 0.0104
+Avg absolute move (%): 0.1214
+Positive (%): 50.75
+Negative (%): 49.25
+Avg spread (%): 0.0917
+
+===============================================================================================
+V2 FACTOR DIAGNOSTIC FINISHED
+===============================================================================================
