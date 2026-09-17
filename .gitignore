@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+market_data.csv
+market_data_v2.csv
+market_data_sample.csv
+market_data_sample.zip
+matches_data.csv
+matches_clean.csv
+tp_sl_results_v2.csv
