@@ -42,7 +42,7 @@ SYMBOLS = [
 
 URL = "https://api.bitpin.org/api/v1/mth/orderbook/"
 
-FILE = "market_data_v2.csv"
+FILE = "market_data_v3.csv"
 
 REQUEST_TIMEOUT = 10
 
@@ -66,6 +66,7 @@ previous = {}
 
 HEADER = [
     "time",
+    "request_sent_at",
     "symbol",
 
     "bid",
@@ -233,7 +234,8 @@ def main():
 
             for symbol in SYMBOLS:
 
-                timestamp = now_string()
+                request_sent_at = now_string()
+                timestamp = request_sent_at
 
                 try:
                     response = session.get(
@@ -244,6 +246,8 @@ def main():
                     response.raise_for_status()
 
                     data = response.json()
+
+                    timestamp = now_string()
 
                     bids = data.get("bids", [])
                     asks = data.get("asks", [])
@@ -389,6 +393,7 @@ def main():
 
                     record = [
                         timestamp,
+                        request_sent_at,
                         symbol,
 
                         bid,
