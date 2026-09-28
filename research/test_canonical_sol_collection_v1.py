@@ -85,7 +85,7 @@ class CanonicalSOLCollectionTests(unittest.TestCase):
             previous,
             10.0,
         )
-        self.assertEqual(record[29], 1)
+        self.assertEqual(record[30], 1)
         self.assertEqual(record[25], 0.0)
         self.assertEqual(record[26], 0.0)
 
