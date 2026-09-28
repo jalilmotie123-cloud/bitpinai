@@ -460,11 +460,7 @@ def main():
 
                 if had_failure:
                     reconnect_count += 1
-                    # Rewrite this row's reconnect_count is intentionally avoided:
-                    # the row records the count active at receipt time. Recovery
-                    # is announced for subsequent rows.
-                    print("[RECONNECT] request recovered; reconnect_count will apply to next row")
-                    reconnect_count = reconnect_count
+                    print("[RECONNECT] request recovered; reconnect_count=%d" % reconnect_count)
                     had_failure = False
 
                 previous = dict(snapshot)
@@ -493,8 +489,6 @@ def main():
 
             except Exception as exc:
                 received_ms = now_epoch_ms()
-                if not had_failure:
-                    reconnect_count += 1
                 had_failure = True
                 previous = None
                 print(
