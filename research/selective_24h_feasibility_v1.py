@@ -785,14 +785,32 @@ def main():
         holdout_summary["cumulative_arithmetic"] is not None and
         holdout_summary["cumulative_arithmetic"] > 0
     )
+    selected_long_n = len(selected_long)
+    selected_short_n = len(selected_short)
+    direction_matched_baseline_mean = None
+    baseline_parts = []
+    if selected_long_n > 0 and baseline_summary["mean"] is not None:
+        baseline_parts.append((selected_long_n, baseline_summary["mean"]))
+    if selected_short_n > 0 and baseline_short_summary["mean"] is not None:
+        baseline_parts.append((selected_short_n, baseline_short_summary["mean"]))
+    if baseline_parts:
+        direction_matched_baseline_mean = (
+            sum(weight * value for weight, value in baseline_parts) /
+            sum(weight for weight, _ in baseline_parts)
+        )
+    matched_improvement = (
+        holdout_summary["mean"] - direction_matched_baseline_mean
+        if holdout_summary["mean"] is not None and direction_matched_baseline_mean is not None
+        else None
+    )
     clear_improvement = (
-        improvement is not None and
-        improvement >= 0.0025
+        matched_improvement is not None and
+        matched_improvement >= 0.0025
     )
     no_tiny_sample = sufficient_sample
     multiple_blocks = positive_block_count >= 2
 
-    if not sufficient_sample or not sufficient_coverage:
+    if not sufficient_sample or not sufficient_coverage or not SHORT_EXECUTION_PROVEN:
         status = "INCONCLUSIVE"
     elif (
         holdout_positive and
@@ -887,6 +905,7 @@ def main():
     report.append("HOLDOUT BASELINE ALL SHORT")
     report.append(repr(baseline_short_summary))
     report.append("Selected minus baseline-all-long mean difference: %s" % improvement)
+    report.append("Direction-matched baseline mean: %s" % direction_matched_baseline_mean)
     report.append("Direction-matched selected-vs-baseline mean difference: %s" % matched_improvement)
     report.append("")
     report.append("DECISION")
