@@ -189,6 +189,13 @@ class AtomicCSVAppender(object):
 
     def _ensure_header(self):
         if os.path.exists(self.path) and os.path.getsize(self.path) > 0:
+            with open(self.path, "rb") as handle:
+                first_line = handle.readline().rstrip(b"\r\n").decode("utf-8", errors="replace")
+            expected = ",".join(self.header)
+            if first_line != expected:
+                raise RuntimeError(
+                    "CANONICAL_CSV_HEADER_MISMATCH: %s" % self.path
+                )
             return
         with open(self.path, "ab") as handle:
             line = (",".join(self.header) + "\r\n").encode("utf-8")
@@ -217,12 +224,14 @@ def parse_server_timestamp(data):
         if key not in data:
             continue
         value = data.get(key)
-        if isinstance(value, (int, float)):
+        try:
             x = float(value)
-            if x > 100000000000:
-                return int(x), "numeric_epoch_ms"
-            if x > 1000000000:
-                return int(x * 1000.0), "numeric_epoch_s"
+        except (TypeError, ValueError):
+            continue
+        if x > 100000000000:
+            return int(x), "numeric_epoch_ms"
+        if x > 1000000000:
+            return int(x * 1000.0), "numeric_epoch_s"
     return None, None
 
 
