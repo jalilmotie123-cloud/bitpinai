@@ -25,6 +25,7 @@ MIN_ENTRY_SEPARATION_SEC = 86400.0
 MAX_ENTRY_ALIGNMENT_SEC = 30.0
 MIN_HOLDOUT_SELECTED_N = 5
 MIN_COVERAGE_DAYS = 30.0
+SHORT_EXECUTION_PROVEN = False
 
 MARKET_CANDIDATES = ("market_data_v3.csv", "market_data_v2.csv")
 TRADEFLOW_FILE = "tradeflow_features_v3.csv"
@@ -676,9 +677,24 @@ def main():
         [x for x in scored_holdout if x["direction"] in ("LONG", "SHORT")]
     )
 
-    train_trades, train_reject = attach_targets(selected_train, market)
-    validation_trades, validation_reject = attach_targets(selected_validation, market)
-    holdout_trades, holdout_reject = attach_targets(selected_holdout, market)
+    # Bid/ask quotes alone do not prove executable short/margin mechanics.
+    # Long is evaluated; short stays INCONCLUSIVE unless explicitly proven.
+    executable_train = (
+        [x for x in selected_train if x["direction"] == "LONG"]
+        if not SHORT_EXECUTION_PROVEN else selected_train
+    )
+    executable_validation = (
+        [x for x in selected_validation if x["direction"] == "LONG"]
+        if not SHORT_EXECUTION_PROVEN else selected_validation
+    )
+    executable_holdout = (
+        [x for x in selected_holdout if x["direction"] == "LONG"]
+        if not SHORT_EXECUTION_PROVEN else selected_holdout
+    )
+
+    train_trades, train_reject = attach_targets(executable_train, market)
+    validation_trades, validation_reject = attach_targets(executable_validation, market)
+    holdout_trades, holdout_reject = attach_targets(executable_holdout, market)
 
     baseline_train_long = evaluate_all_baseline(train, market, "LONG")
     baseline_validation_long = evaluate_all_baseline(validation, market, "LONG")
@@ -809,11 +825,13 @@ def main():
     report.append("Fixed selection: Long >= %.2f; Short <= -%.2f" % (SCORE_THRESHOLD, SCORE_THRESHOLD))
     report.append("No feature/threshold changes after validation or holdout.")
     report.append("Long execution: ASK -> future BID")
-    report.append("Short execution: BID -> future ASK")
+    report.append("Short execution: BID -> future ASK ONLY IF mechanics proven")
+    report.append("SHORT_EXECUTION_PROVEN=%s" % SHORT_EXECUTION_PROVEN)
     report.append("Fee: %.4f%% per side (configurable assumption)" % (FEE_SIDE * 100.0))
     report.append("Net convention: executable return with exact two-sided fee")
     report.append("Additional slippage sensitivity: 0/5/10/20/30 bps")
     report.append("Selected entries: minimum 24h apart; primary selected N is therefore the non-overlapping sequence.")
+    report.append("Short side is not scored economically unless executable short mechanics are explicitly proven.")
     report.append("All-entry baselines overlap and are NOT independent samples.")
     report.append("")
     report.append("TIME COVERAGE")
@@ -869,17 +887,19 @@ def main():
     report.append("HOLDOUT BASELINE ALL SHORT")
     report.append(repr(baseline_short_summary))
     report.append("Selected minus baseline-all-long mean difference: %s" % improvement)
+    report.append("Direction-matched selected-vs-baseline mean difference: %s" % matched_improvement)
     report.append("")
     report.append("DECISION")
     report.append("STATUS=%s" % status)
     report.append("Positive selected blocks=%d/4" % positive_block_count)
-    report.append("Clear improvement threshold=0.25 percentage points over all-long baseline.")
+    report.append("Clear improvement threshold=0.25 percentage points over direction-matched baseline.")
     report.append("Cost robust through 10 bps=%s" % cost_robust)
+    report.append("Short economics status: %s" % ("EXECUTABLE" if SHORT_EXECUTION_PROVEN else "INCONCLUSIVE"))
     report.append("Sufficient selected holdout N=%s" % sufficient_sample)
     report.append("Sufficient full coverage=%s" % sufficient_coverage)
     report.append("")
     report.append("DIRECT ANSWERS")
-    if holdout_positive and improvement is not None and improvement > 0:
+    if holdout_positive and matched_improvement is not None and matched_improvement > 0:
         report.append("1. Selective selection changes the unconditional result directionally on the final holdout.")
     else:
         report.append("1. Selective selection does not produce a positive final-holdout economic result.")
@@ -922,7 +942,11 @@ def main():
 
     groups = [
         ("train_selected", train_trades),
+        ("train_selected_long", [x for x in train_trades if x["side"] == "LONG"]),
+        ("train_selected_short", [x for x in train_trades if x["side"] == "SHORT"]),
         ("validation_selected", validation_trades),
+        ("validation_selected_long", [x for x in validation_trades if x["side"] == "LONG"]),
+        ("validation_selected_short", [x for x in validation_trades if x["side"] == "SHORT"]),
         ("holdout_selected_long", selected_long),
         ("holdout_selected_short", selected_short),
         ("holdout_selected_long_plus_short", selected_both),
