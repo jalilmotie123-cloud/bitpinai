@@ -1,6 +1,6 @@
 # Feasibility Audit V1
 
-This is a deterministic, read-only SOL market-economics audit. It does not modify input datasets, collectors, existing models, strategy code, or trading code.
+Deterministic, read-only SOL market-economics audit. Existing datasets, collectors, models, strategy code and trading code are not modified.
 
 ## Inputs
 
@@ -19,41 +19,43 @@ For files without a symbol column, the report states that the file is treated as
 
 Timestamp parsing distinguishes:
 
-1. Unix epoch seconds: interpreted as Unix UTC.
-2. Unix epoch milliseconds: interpreted as Unix UTC.
-3. Datetimes with an explicit timezone/offset: interpreted using that embedded offset.
-4. Naive datetimes such as \`YYYY-MM-DD HH:MM:SS.fff\`: interpreted with the host OS local-time rules via \`time.mktime()\`.
+1. Unix epoch seconds: Unix UTC.
+2. Unix epoch milliseconds: Unix UTC.
+3. Datetimes with an explicit offset/timezone: the embedded offset.
+4. Naive datetimes such as \`YYYY-MM-DD HH:MM:SS.fff\`: the host OS local timezone using \`datetime.timestamp()\`.
 
-The report records:
+The report records the host local timezone name/details and the timestamp interpretation kinds found in each dataset.
 
-- host local timezone name;
-- timestamp interpretation kinds found in each dataset;
-- timezone status.
+This assumes naive collector timestamps were produced in the same local timezone as the machine running the audit. If that cannot be established, timezone/alignment is a limitation and must be treated as \`TIMEZONE_UNCERTAIN\`; UTC is never silently assumed for naive timestamps.
 
-This local-datetime rule assumes the files were created by the same local collector environment. If the collector timezone cannot be established, the report marks the case \`TIMEZONE_UNCERTAIN\`; signal alignment must then be treated as a limitation rather than silently guessing UTC.
-
-Tradeflow Unix epochs are therefore converted to UTC first, while market naive timestamps are converted from the collector host's local clock to the same absolute Unix timeline.
+The data audit checks the **original file order before sorting** and reports both \`original_timestamp_ordering\` and \`original_timestamp_inversions\`. Calculations then use sorted chronological timestamps.
 
 ## Canonical market source
 
-Both \`market_data_v2.csv\` and \`market_data_v3.csv\` are audited independently.
+Both market files are audited independently.
 
-Canonical selection does not use row count as the primary criterion.
+Canonical selection is deterministic and does **not** choose the file with the most rows by default. The hierarchy is:
 
-Selection hierarchy:
-
-1. executable SOL time/bid/ask schema must exist;
-2. newer temporal end coverage;
-3. longer temporal coverage;
-4. lower P95 sampling interval;
+1. executable SOL bid/ask validity share;
+2. usable schema;
+3. newest end-time coverage;
+4. longer coverage and better continuity;
 5. lower invalid bid/ask rate;
-6. valid SOL executable row count only as the final tie-breaker.
+6. valid row count only as the final tie-breaker.
 
-The report includes both datasets' start/end, duration, valid SOL rows, executable validity, continuity and schema information, plus the exact selection reason.
+The report explicitly writes:
+
+\`CANONICAL_SOURCE=<file>\`
+
+and
+
+\`SELECTION_REASON=<deterministic hierarchy>\`
+
+It also reports each market file's valid SOL rows, executable share, start/end, duration, median interval and P95 interval.
 
 ## Horizons
 
-Only these horizons are tested:
+Only these horizons are evaluated:
 
 \`300, 900, 1800, 3600, 7200, 14400, 21600, 43200, 86400\` seconds.
 
@@ -64,176 +66,216 @@ No other opportunity horizon is added.
 When \`tradeflow_features_v3.csv\` exists:
 
 - \`signal_time\` = tradeflow timestamp.
-- \`market_snapshot_time\` = canonical market snapshot selected for the signal.
-- \`entry_time\` is kept conceptually separate from \`signal_time\`.
-- \`entry_snapshot_time\` is the first market snapshot with \`market_time >= signal_time\`.
-- \`exit_time\` is the last market snapshot at or before \`signal_time + horizon\` for the fixed-horizon baseline.
+- \`market_snapshot_time\` = canonical market snapshot used for alignment.
+- \`entry_snapshot_time\` = first canonical market snapshot with \`market_time >= signal_time\`.
+- \`entry_time\` remains conceptually distinct from \`signal_time\`.
+- \`exit_time\` = last canonical market snapshot at or before \`signal_time + horizon\` for the fixed-horizon baseline.
 
 The alignment delay is exactly:
 
 \`entry_snapshot_time - signal_time\`
 
-The report provides mean, median, P90, P95, P99 and max, plus a fixed stale/delayed count for delays above 30 seconds. The 30-second flag is an audit diagnostic, not an optimized parameter.
+The report provides mean, median, P90, P95, P99 and max, plus a fixed audit count for delays over 30 seconds. The 30-second flag is diagnostic, not optimized.
 
-## Long execution
+## Long execution and cost decomposition
 
-For executable Long economics:
+Long execution:
 
 - ENTRY = ASK
 - EXIT = future BID
 
-Baseline gross mid-to-mid:
+A. Gross mid:
 
-\`gross_mid = future_mid / entry_mid - 1\`
+\`gross_mid = exit_mid / entry_mid - 1\`
 
-Gross after fee, before spread:
+B. Gross after fee, before spread:
 
-\`gross_after_fee = future_mid * (1-fee) / (entry_mid * (1+fee)) - 1\`
+\`gross_after_fee = exit_mid * (1-fee) / (entry_mid * (1+fee)) - 1\`
 
-Executable gross after spread:
+C. Executable before fee:
 
-\`gross_after_spread = future_bid / entry_ask - 1\`
+\`gross_after_spread = exit_bid / entry_ask - 1\`
 
-Net after fee plus spread:
+D. Net after fee + spread:
 
-\`net_fee_spread = future_bid * (1-fee) / (entry_ask * (1+fee)) - 1\`
+\`net_fee_spread = exit_bid * (1-fee) / (entry_ask * (1+fee)) - 1\`
 
-Additional slippage is then applied as a fixed round-trip deduction for exactly 0, 5, 10, 20 and 30 bps.
+E. Net after additional slippage:
 
-## Fee decomposition
+\`D - slippage_bps/10000\`
+
+The five and only five sensitivity cases are:
+
+\`0, 5, 10, 20, 30 bps\`
+
+Slippage is an assumption for sensitivity analysis, not observed historical slippage.
+
+## Fee model
 
 Default:
 
 \`fee_side = 0.0035\`
 
-This is a configurable assumption, not a verified current-market truth.
+This is a configurable assumption, not verified current-market truth.
 
-The exact two-sided fee-only factor for a flat-price round trip is:
+Exact two-sided fee-only factor for flat price:
 
 \`(1-fee)/(1+fee)\`
 
-Therefore the exact flat-price fee drag is:
+Exact flat-price fee drag:
 
-\`1 - (1-fee)/(1+fee)\`
+\`1-(1-fee)/(1+fee)\`
 
-For \`fee_side=0.0035\`, this is about 0.69756%, not 0.70% exactly.
+For 0.0035 per side, the exact flat-price drag is about 0.69756%.
 
-The CSV field \`fee_cost_flat_pct\` represents this exact flat-price fee drag. It is not the per-observation PnL fee loss.
+The CSV field \`fee_cost_flat_pct\` is this exact flat-price drag. It is not presented as a per-observation PnL loss.
 
-Spread is not reported as a simple subtraction of two returns. The executable ASK-to-BID return is the primary spread-aware quantity. The report also gives entry spread, exit spread, and an exact multiplicative factor drag:
+Spread is not represented by subtracting one return from another as an “exact cost”. The primary executable quantity is the ASK-to-future-BID return. The report separately records entry spread, exit spread and the exact multiplicative factor drag:
 
 \`1 - (1 + gross_after_spread) / (1 + gross_mid)\`
 
-This is a factor-equivalent execution drag, not an additive return subtraction.
+## Baseline dependence
 
-## Short execution
+Every valid canonical market snapshot is evaluated.
 
-No short result is manufactured.
+Raw \`N\` is reported but is **not an independent-sample count**. Overlapping observations can be strongly correlated, particularly at 4h, 6h, 12h and 24h.
 
-With ordinary bid/ask snapshots alone, short opening/closing mechanics, borrow/margin availability and executable fills are not established. Therefore:
+The audit does not make statistical-significance or statistical-proof claims from raw N alone. Four chronological time blocks are reported to expose stability.
 
-\`SHORT = INCONCLUSIVE\`
+## Performance / MFE / MAE
 
-unless the supplied data itself proves executable short mechanics.
+MFE/MAE uses a monotonic-deque sliding-window implementation.
 
-## Baseline sampling and dependence
+For each horizon, the algorithm is approximately O(N):
 
-Every valid canonical market snapshot is evaluated for each requested horizon.
+- one deque tracks the maximum future BID;
+- one deque tracks the minimum future BID;
+- the right edge only moves forward;
+- expired indices are removed from the front.
 
-This is an opportunity-density analysis, not a portfolio backtest.
+Definitions are unchanged:
 
-Raw \`N\` is reported but is explicitly **not** treated as an independent-sample count. With overlapping horizons, especially 4h, 6h, 12h and 24h, adjacent observations can be strongly dependent.
+\`MFE = max(future_bid / entry_ask - 1)\`
 
-The report therefore uses four consecutive chronological time blocks for stability checks and does not make statistical-proof claims from raw \`N\`.
+\`MAE = min(future_bid / entry_ask - 1)\`
 
-## Time blocks
+An internal deterministic self-check compares the deque implementation against a brute-force reference on a small synthetic market before any input dataset is processed. A mismatch stops execution.
 
-The full canonical market coverage is divided into four consecutive chronological blocks.
-
-For every horizon and the five requested slippage sensitivities, each block reports:
-
-- N
-- gross measures
-- net mean
-- net median
-- win rate
-- quantiles
-
-No random shuffle is used.
+The fixed-horizon lookup is also implemented with a monotonic right pointer, avoiding repeated full searches per entry.
 
 ## Volatility regimes
 
-When sufficient market data exists, a simple non-ML regime proxy is calculated from 300-second trailing realized log-return volatility.
+Regime is descriptive only and is based on **trailing 300-second realized log-return volatility**, not future price movement or executable return.
 
-The distribution is split into LOW, MEDIUM and HIGH empirical thirds.
+To avoid look-ahead from regime cutpoints, empirical thirds for each chronological block are calibrated only from the immediately preceding block:
 
-This is descriptive regime analysis only. It is not a strategy, signal, threshold optimization, or parameter sweep.
+- block 1: UNKNOWN (no prior block exists);
+- block 2: thirds from block 1;
+- block 3: thirds from block 2;
+- block 4: thirds from block 3.
 
-## Oracle MFE / MAE
+Only LOW, MEDIUM and HIGH are emitted as regime categories; block-1 observations are explicitly counted as unclassified rather than assigned a guessed regime.
 
-For each horizon and valid entry:
+## Short execution
 
-- MFE = maximum future BID relative to executable entry ASK within the horizon.
-- MAE = minimum future BID relative to executable entry ASK within the horizon.
+No short result is fabricated.
 
-Only snapshots at or before the horizon end are included. This is an opportunity-existence diagnostic, not a TP/SL test and not a strategy.
+Bid/ask quotes alone do not establish borrow, margin, short-entry availability, close mechanics or executable short fills.
+
+Therefore:
+
+\`SHORT = INCONCLUSIVE\`
+
+unless supplied data itself proves executable short mechanics.
 
 ## Decision framework
 
-Base sensitivity is 20 bps of additional slippage.
+Base decision sensitivity is 20 bps additional slippage.
 
-A horizon is:
+Minimum raw N for a non-INCONCLUSIVE result is 100, but N is not an independent-sample count.
 
-### GO-FOR-FURTHER-RESEARCH
-
-Only when all of these hold:
+GO-FOR-FURTHER-RESEARCH requires all of:
 
 - raw N >= 100;
-- net mean > 0 at 20 bps;
-- all four time blocks have positive net mean at 20 bps;
-- net mean is positive at 0, 5, 10 and 20 bps.
+- positive net mean at 20 bps;
+- positive net mean in all four chronological blocks at 20 bps;
+- positive net mean at 0, 5, 10 and 20 bps.
 
-This is a research-gate label, not a statistical-significance claim.
+Therefore a result that is positive without slippage but turns negative at 10–20 bps is not GO.
 
-### NO-GO
+A result with only one positive time block is not GO.
 
-Only when:
+NO-GO requires:
 
 - raw N >= 100; and
-- all four time blocks have non-positive net mean at 20 bps.
+- non-positive net mean in all four blocks at the 20 bps sensitivity.
 
-### INCONCLUSIVE
+All other cases are INCONCLUSIVE.
 
-All other cases, including:
+These are research-gate labels, not statistical significance claims.
 
-- insufficient raw observations;
-- positive mean concentrated in only one block;
-- positive without slippage but negative at 10–20 bps;
-- incomplete block coverage;
-- unresolved timezone alignment.
+## Data-audit fields
+
+For every dataset the report provides, where applicable:
+
+- row count;
+- SOL row count;
+- start/end;
+- duration;
+- duplicate timestamps;
+- duplicate IDs;
+- missing values;
+- invalid prices;
+- invalid bid/ask;
+- original timestamp ordering;
+- original timestamp inversions;
+- median interval;
+- P90/P95/P99 interval;
+- maximum gap;
+- timestamp interpretation/timezone status.
 
 ## Limitations
 
-Historical slippage is not inferred from thin air; it is represented only through the five requested sensitivity cases.
-
 Quote snapshots do not prove executable fill size or market impact.
 
-Large sampling gaps can reduce the number of valid horizon observations and can affect representativeness; the audit reports median/P90/P95/P99/max intervals so this can be assessed before interpretation.
+Historical slippage is not known unless the supplied data directly contains it; this audit therefore uses only the five fixed sensitivity cases.
 
-Overlapping observations are intentionally retained for opportunity-density measurement. They must not be interpreted as independent trades.
+Large sampling gaps can reduce valid horizon observations and affect representativeness; the audited gap distribution must be considered before interpretation.
 
-No ML, signal model, threshold optimization, TP/SL optimization, live trading, order execution, or collector modification is performed.
+Overlapping baseline observations are opportunity-density observations, not independent trades.
+
+No ML, signal model, threshold sweep, TP/SL optimization, live trading, order execution, or collector modification is performed.
+
+## Progress output
+
+The script prints progress for:
+
+- dataset loading/auditing;
+- canonical source;
+- each horizon start;
+- MFE/MAE completion;
+- each horizon completion;
+- CSV output;
+- text-report output.
+
+Example:
+
+\`[1/9] HORIZON=300s START\`
+
+\`[1/9] HORIZON=300s MFE/MAE DONE N=...\`
+
+\`[1/9] HORIZON=300s DONE N=...\`
 
 ## Outputs
 
-When run locally from the repository root, the script creates only:
+A local run creates only:
 
 - \`research/feasibility_results.csv\`
 - \`research/feasibility_report.txt\`
 
-The input datasets are read-only.
+The four input datasets are read-only.
 
-Run:
+Run from the repository root:
 
 \`\`\`
 python research/feasibility_audit_v1.py
