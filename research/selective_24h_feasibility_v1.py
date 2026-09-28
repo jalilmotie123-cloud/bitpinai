@@ -700,9 +700,14 @@ def main():
     baseline_validation_long = evaluate_all_baseline(validation, market, "LONG")
     baseline_holdout_long = evaluate_all_baseline(holdout, market, "LONG")
 
-    baseline_train_short = evaluate_all_baseline(train, market, "SHORT")
-    baseline_validation_short = evaluate_all_baseline(validation, market, "SHORT")
-    baseline_holdout_short = evaluate_all_baseline(holdout, market, "SHORT")
+    if SHORT_EXECUTION_PROVEN:
+        baseline_train_short = evaluate_all_baseline(train, market, "SHORT")
+        baseline_validation_short = evaluate_all_baseline(validation, market, "SHORT")
+        baseline_holdout_short = evaluate_all_baseline(holdout, market, "SHORT")
+    else:
+        baseline_train_short = []
+        baseline_validation_short = []
+        baseline_holdout_short = []
 
     selected_long = [x for x in holdout_trades if x["side"] == "LONG"]
     selected_short = [x for x in holdout_trades if x["side"] == "SHORT"]
@@ -899,11 +904,17 @@ def main():
     report.append("HOLDOUT SELECTED LONG")
     report.append(repr(selected_long_summary))
     report.append("HOLDOUT SELECTED SHORT")
-    report.append(repr(selected_short_summary))
+    report.append(
+        "INCONCLUSIVE: short mechanics are not proven in supplied data."
+        if not SHORT_EXECUTION_PROVEN else repr(selected_short_summary)
+    )
     report.append("HOLDOUT BASELINE ALL LONG")
     report.append(repr(baseline_summary))
     report.append("HOLDOUT BASELINE ALL SHORT")
-    report.append(repr(baseline_short_summary))
+    report.append(
+        "INCONCLUSIVE: short mechanics are not proven in supplied data."
+        if not SHORT_EXECUTION_PROVEN else repr(baseline_short_summary)
+    )
     report.append("Selected minus baseline-all-long mean difference: %s" % improvement)
     report.append("Direction-matched baseline mean: %s" % direction_matched_baseline_mean)
     report.append("Direction-matched selected-vs-baseline mean difference: %s" % matched_improvement)
@@ -962,10 +973,8 @@ def main():
     groups = [
         ("train_selected", train_trades),
         ("train_selected_long", [x for x in train_trades if x["side"] == "LONG"]),
-        ("train_selected_short", [x for x in train_trades if x["side"] == "SHORT"]),
         ("validation_selected", validation_trades),
         ("validation_selected_long", [x for x in validation_trades if x["side"] == "LONG"]),
-        ("validation_selected_short", [x for x in validation_trades if x["side"] == "SHORT"]),
         ("holdout_selected_long", selected_long),
         ("holdout_selected_short", selected_short),
         ("holdout_selected_long_plus_short", selected_both),
