@@ -4,7 +4,7 @@ import math
 import os
 import statistics
 import time
-from bisect import bisect_right
+from bisect import bisect_left, bisect_right
 from collections import deque
 from datetime import datetime, timezone
 
@@ -461,9 +461,7 @@ def align_tradeflow_signals(market, path):
             continue
         result["signals_valid_time"] += 1
 
-        j = bisect_right(market_times, signal_time - 1e-12)
-        # bisect_right(... - epsilon) is equivalent to first timestamp >= signal_time
-        # for finite timestamp precision while keeping exact equality on integer-like epochs.
+        j = bisect_left(market_times, signal_time)
         if j < 0:
             j = 0
         if j >= len(market_times):
@@ -845,6 +843,7 @@ def main():
     ]
 
     result_rows = []
+    decision_rows = []
     start_time = market[0][0]
     end_time = market[-1][0]
 
@@ -920,8 +919,8 @@ def main():
 
         report.append(
             "Regime = trailing 300s realized log-return volatility. "
-            "Empirical thirds for block %d use only the immediately preceding block; "
-            "first block is UNKNOWN because no prior information exists." % 2
+            "For each block after block 1, LOW/MEDIUM/HIGH empirical thirds are calibrated only "
+            "from the immediately preceding block; block 1 is UNKNOWN because no prior data exists."
         )
         for b in range(2, 5):
             qcuts = regime_cutpoints.get(b, (None, None))
@@ -998,10 +997,6 @@ def main():
         else:
             status = "INCONCLUSIVE"
 
-        decision_rows = locals().get("decision_rows")
-        if decision_rows is None:
-            decision_rows = []
-            locals()["decision_rows"] = decision_rows
         decision_rows.append(
             (
                 horizon,
@@ -1046,7 +1041,7 @@ def main():
         positive_blocks,
         block_ns,
         means_by_block,
-    ) in locals()["decision_rows"]:
+    ) in decision_rows:
         report.append(
             "%ss: %s | N=%s | net_mean@20bps=%s | net_median@20bps=%s | positive_blocks=%d/4 | block_N=%s | block_means=%s | means_by_slip=%s"
             % (
