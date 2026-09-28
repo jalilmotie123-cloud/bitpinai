@@ -419,21 +419,18 @@ def score_records(records, scaling):
     return out
 
 
-def first_future_index(times, start_idx, target):
-    return bisect_left(times, target, lo=start_idx + 1)
+def last_snapshot_at_or_before(times, start_idx, target):
+    return bisect_right(times, target, lo=start_idx + 1) - 1
 
 
 def evaluate_trade(market, entry_index, side):
     times = [x["time"] for x in market]
     entry = market[entry_index]
     exit_target = entry["time"] + HORIZON_SEC
-    exit_index = first_future_index(times, entry_index, exit_target)
+    exit_index = last_snapshot_at_or_before(times, entry_index, exit_target)
 
     # Use the last market snapshot at or before the 24h target, matching the
     # canonical feasibility convention. There must be a snapshot after entry.
-    if exit_index <= entry_index:
-        return None
-    exit_index -= 1
     if exit_index <= entry_index:
         return None
 
