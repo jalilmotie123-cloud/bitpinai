@@ -120,8 +120,14 @@ class AtomicCSVAppender(object):
                 os.fsync(handle.fileno())
 
     def append(self, values):
+        self.append_many([values])
+
+    def append_many(self, rows):
+        if not rows:
+            return
         with open(self.path, "ab") as handle:
-            handle.write(csv_line(values))
+            for values in rows:
+                handle.write(csv_line(values))
             handle.flush()
             os.fsync(handle.fileno())
 
@@ -181,11 +187,12 @@ def append_unique_trades(appender, items, seen, request_ms, received_ms, session
         )
     )
 
+    rows_to_append = []
     for row in normalized:
         if row["id"] in seen:
             continue
 
-        values = [
+        rows_to_append.append([
             row["id"],
             row["event_time_epoch_ms"] if row["event_time_epoch_ms"] is not None else "",
             row["event_time_iso"],
@@ -202,11 +209,11 @@ def append_unique_trades(appender, items, seen, request_ms, received_ms, session
             "REST",
             session_id,
             reconnect_count,
-        ]
-        appender.append(values)
+        ])
         seen.add(row["id"])
         new_count += 1
 
+    appender.append_many(rows_to_append)
     return new_count, invalid_count
 
 
