@@ -75,6 +75,37 @@ def now_local_iso(epoch_ms=None):
     return dt.isoformat(timespec="milliseconds")
 
 
+def parse_timestamp(value):
+    """Compatibility helper: parse Unix seconds/milliseconds or ISO datetime."""
+    try:
+        x = float(value)
+        if abs(x) > 100000000000:
+            return x / 1000.0, "epoch_milliseconds_utc"
+        if abs(x) > 1000000000:
+            return x, "epoch_seconds_utc"
+    except (TypeError, ValueError):
+        pass
+
+    text = str(value or "").strip()
+    if not text:
+        return None, "missing"
+    if text.endswith("Z"):
+        text = text[:-1] + "+00:00"
+    try:
+        dt = datetime.datetime.fromisoformat(text)
+        if dt.tzinfo is not None:
+            return dt.timestamp(), "timezone_aware_datetime"
+    except ValueError:
+        pass
+    for fmt in ("%Y-%m-%d %H:%M:%S.%f", "%Y-%m-%d %H:%M:%S"):
+        try:
+            dt = datetime.datetime.strptime(text, fmt)
+            return dt.timestamp(), "naive_datetime_local"
+        except ValueError:
+            continue
+    return None, "unparsed"
+
+
 def finite_float(value):
     try:
         x = float(value)
