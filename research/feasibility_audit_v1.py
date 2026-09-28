@@ -136,32 +136,37 @@ def is_sol(row):
     return str(symbol).strip().upper() in SYMBOLS
 
 
+def quantile_sorted(sorted_values, p):
+    if not sorted_values:
+        return None
+    pos = (len(sorted_values) - 1) * p
+    lo = int(pos)
+    hi = min(lo + 1, len(sorted_values) - 1)
+    return sorted_values[lo] + (sorted_values[hi] - sorted_values[lo]) * (pos - lo)
+
+
 def quantile(values, p):
     vals = sorted(x for x in values if x is not None and math.isfinite(x))
-    if not vals:
-        return None
-    pos = (len(vals) - 1) * p
-    lo = int(pos)
-    hi = min(lo + 1, len(vals) - 1)
-    return vals[lo] + (vals[hi] - vals[lo]) * (pos - lo)
+    return quantile_sorted(vals, p)
 
 
 def stats(values):
     vals = [x for x in values if x is not None and math.isfinite(x)]
     if not vals:
         return {"N": 0}
+    ordered = sorted(vals)
     return {
-        "N": len(vals),
-        "mean": statistics.mean(vals),
-        "median": statistics.median(vals),
-        "p10": quantile(vals, 0.10),
-        "p25": quantile(vals, 0.25),
-        "p50": quantile(vals, 0.50),
-        "p75": quantile(vals, 0.75),
-        "p90": quantile(vals, 0.90),
-        "p95": quantile(vals, 0.95),
-        "p99": quantile(vals, 0.99),
-        "win": sum(x > 0 for x in vals) / len(vals),
+        "N": len(ordered),
+        "mean": statistics.mean(ordered),
+        "median": quantile_sorted(ordered, 0.50),
+        "p10": quantile_sorted(ordered, 0.10),
+        "p25": quantile_sorted(ordered, 0.25),
+        "p50": quantile_sorted(ordered, 0.50),
+        "p75": quantile_sorted(ordered, 0.75),
+        "p90": quantile_sorted(ordered, 0.90),
+        "p95": quantile_sorted(ordered, 0.95),
+        "p99": quantile_sorted(ordered, 0.99),
+        "win": sum(x > 0 for x in ordered) / len(ordered),
     }
 
 
@@ -411,7 +416,7 @@ def choose_canonical(profiles):
         schema = profile.get("schema_score", "0/4")
         schema_score = int(str(schema).split("/")[0])
         return (
-            float(valid_share := profile.get("valid_executable_share", 0.0)),
+            float(profile.get("valid_executable_share", 0.0)),
             schema_score,
             profile.get("coverage_end_epoch", float("-inf")),
             profile.get("coverage_duration_sec", float("-inf")),
