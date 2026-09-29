@@ -493,13 +493,31 @@ def attach_targets(scored, market):
     return out, rejected
 
 
+def selection_timestamp(row):
+    """Use the executable entry timestamp, before or after target attachment."""
+    if row.get("entry_time") is not None:
+        return row["entry_time"]
+    if row.get("entry_snapshot_time") is not None:
+        return row["entry_snapshot_time"]
+    raise KeyError("entry_time/entry_snapshot_time")
+
+
 def select_nonoverlapping(rows):
     selected = []
     last_entry = None
-    for row in sorted(rows, key=lambda x: (x["entry_time"], x["signal_time"], x["side"])):
-        if last_entry is None or row["entry_time"] >= last_entry + MIN_ENTRY_SEPARATION_SEC:
+    ordered = sorted(
+        rows,
+        key=lambda x: (
+            selection_timestamp(x),
+            x["signal_time"],
+            x.get("side", x.get("direction", "")),
+        ),
+    )
+    for row in ordered:
+        entry_time = selection_timestamp(row)
+        if last_entry is None or entry_time >= last_entry + MIN_ENTRY_SEPARATION_SEC:
             selected.append(row)
-            last_entry = row["entry_time"]
+            last_entry = entry_time
     return selected
 
 

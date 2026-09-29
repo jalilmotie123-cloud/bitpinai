@@ -10,6 +10,7 @@ from selective_24h_feasibility_v1 import (
     evaluate_trade,
     score_record,
     select_nonoverlapping,
+    selection_timestamp,
     summary,
 )
 
@@ -43,6 +44,30 @@ class Selective24HTests(unittest.TestCase):
         self.assertEqual(len(chosen), 2)
         self.assertEqual(chosen[0]["entry_time"], 1000.0)
         self.assertEqual(chosen[1]["entry_time"], 90000.0)
+
+    def test_nonoverlap_accepts_scored_records_with_entry_snapshot_time(self):
+        rows = [
+            {
+                "entry_snapshot_time": 1000.0,
+                "signal_time": 1000.0,
+                "direction": "LONG",
+            },
+            {
+                "entry_snapshot_time": 2000.0,
+                "signal_time": 2000.0,
+                "direction": "SHORT",
+            },
+            {
+                "entry_snapshot_time": 90000.0,
+                "signal_time": 90000.0,
+                "direction": "LONG",
+            },
+        ]
+        chosen = select_nonoverlapping(rows)
+        self.assertEqual(len(chosen), 2)
+        self.assertEqual(chosen[0]["entry_snapshot_time"], 1000.0)
+        self.assertEqual(chosen[1]["entry_snapshot_time"], 90000.0)
+        self.assertEqual(selection_timestamp(chosen[0]), 1000.0)
 
     def test_long_cost_convention(self):
         market = [
