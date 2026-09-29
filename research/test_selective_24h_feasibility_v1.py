@@ -5,6 +5,7 @@ from selective_24h_feasibility_v1 import (
     FEE_SIDE,
     SCORE_THRESHOLD,
     SHORT_EXECUTION_PROVEN,
+    cost_robust_for_group,
     determine_primary_status,
     evaluate_trade,
     score_record,
@@ -60,6 +61,23 @@ class Selective24HTests(unittest.TestCase):
         self.assertEqual(stats["N"], 3)
         self.assertGreater(stats["profit_factor"], 1.0)
         self.assertGreaterEqual(stats["max_drawdown"], 0.0)
+
+    def test_long_only_cost_robust_uses_primary_group_and_rejects_empty(self):
+        primary_rows = [
+            {"group": "selected_long_primary", "slippage_bps": 0, "mean_net": 0.010},
+            {"group": "selected_long_primary", "slippage_bps": 5, "mean_net": 0.009},
+            {"group": "selected_long_primary", "slippage_bps": 10, "mean_net": 0.008},
+            {"group": "selected_long_plus_short", "slippage_bps": 0, "mean_net": -0.100},
+            {"group": "selected_long_plus_short", "slippage_bps": 5, "mean_net": -0.100},
+            {"group": "selected_long_plus_short", "slippage_bps": 10, "mean_net": -0.100},
+        ]
+        self.assertFalse(SHORT_EXECUTION_PROVEN)
+        self.assertTrue(cost_robust_for_group(primary_rows, "selected_long_primary"))
+        self.assertFalse(cost_robust_for_group([], "selected_long_primary"))
+        self.assertFalse(cost_robust_for_group(
+            [x for x in primary_rows if x["group"] == "selected_long_plus_short"],
+            "selected_long_primary",
+        ))
 
     def test_long_only_gate_ignores_unproven_short(self):
         self.assertFalse(SHORT_EXECUTION_PROVEN)

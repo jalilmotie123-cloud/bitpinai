@@ -562,6 +562,16 @@ def make_time_ranges(start, end, count):
     return ranges
 
 
+def cost_robust_for_group(sensitivity, group_name):
+    """Return True only when matching 0/5/10 bps cases exist and are all positive."""
+    relevant = [
+        x for x in sensitivity
+        if x["group"] == group_name
+        and x["slippage_bps"] in (0, 5, 10)
+    ]
+    return bool(relevant) and all(x["mean_net"] > 0 for x in relevant)
+
+
 def determine_primary_status(
     primary_summary,
     baseline_mean,
@@ -837,11 +847,9 @@ def main():
 
     sufficient_sample = holdout_summary["N"] >= MIN_HOLDOUT_SELECTED_N
     sufficient_coverage = coverage_days >= MIN_COVERAGE_DAYS
-    cost_robust = all(
-        x["mean_net"] > 0
-        for x in sensitivity
-        if x["group"] == "selected_long_plus_short"
-        and x["slippage_bps"] in (0, 5, 10)
+    cost_robust = cost_robust_for_group(
+        sensitivity=sensitivity,
+        group_name=primary_group_name,
     )
     median_positive = (
         holdout_summary["median"] is not None and
