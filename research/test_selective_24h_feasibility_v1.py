@@ -87,6 +87,29 @@ class Selective24HTests(unittest.TestCase):
         self.assertGreater(stats["profit_factor"], 1.0)
         self.assertGreaterEqual(stats["max_drawdown"], 0.0)
 
+    def test_cost_robust_rejects_empty_mean_net(self):
+        rows = [
+            {"group": "selected_long_primary", "slippage_bps": 0, "mean_net": ""},
+            {"group": "selected_long_primary", "slippage_bps": 5, "mean_net": 0.009},
+            {"group": "selected_long_primary", "slippage_bps": 10, "mean_net": 0.008},
+        ]
+        self.assertFalse(cost_robust_for_group(rows, "selected_long_primary"))
+
+    def test_cost_robust_rejects_missing_case(self):
+        rows = [
+            {"group": "selected_long_primary", "slippage_bps": 0, "mean_net": 0.010},
+            {"group": "selected_long_primary", "slippage_bps": 5, "mean_net": 0.009},
+        ]
+        self.assertFalse(cost_robust_for_group(rows, "selected_long_primary"))
+
+    def test_cost_robust_accepts_three_finite_positive_cases(self):
+        rows = [
+            {"group": "selected_long_primary", "slippage_bps": 0, "mean_net": 0.010},
+            {"group": "selected_long_primary", "slippage_bps": 5, "mean_net": 0.009},
+            {"group": "selected_long_primary", "slippage_bps": 10, "mean_net": 0.008},
+        ]
+        self.assertTrue(cost_robust_for_group(rows, "selected_long_primary"))
+
     def test_long_only_cost_robust_uses_primary_group_and_rejects_empty(self):
         primary_rows = [
             {"group": "selected_long_primary", "slippage_bps": 0, "mean_net": 0.010},

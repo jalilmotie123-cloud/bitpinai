@@ -581,13 +581,25 @@ def make_time_ranges(start, end, count):
 
 
 def cost_robust_for_group(sensitivity, group_name):
-    """Return True only when matching 0/5/10 bps cases exist and are all positive."""
+    """Return True only for complete, finite, positive 0/5/10 bps cases."""
+    required_bps = (0, 5, 10)
     relevant = [
         x for x in sensitivity
-        if x["group"] == group_name
-        and x["slippage_bps"] in (0, 5, 10)
+        if x.get("group") == group_name
+        and x.get("slippage_bps") in required_bps
     ]
-    return bool(relevant) and all(x["mean_net"] > 0 for x in relevant)
+    if len(relevant) != len(required_bps):
+        return False
+    if sorted(x["slippage_bps"] for x in relevant) != list(required_bps):
+        return False
+
+    for row in relevant:
+        value = row.get("mean_net")
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            return False
+        if not math.isfinite(value) or value <= 0:
+            return False
+    return True
 
 
 def determine_primary_status(
