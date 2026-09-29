@@ -81,6 +81,30 @@ class Selective24HTests(unittest.TestCase):
         )
         self.assertAlmostEqual(result["net_return"], expected, places=12)
 
+    def test_evaluate_trade_rejects_market_shorter_than_24h(self):
+        market = [
+            {"time": 0.0, "bid": 100.0, "ask": 101.0, "mid": 100.5},
+            {"time": 4 * 3600.0, "bid": 105.0, "ask": 106.0, "mid": 105.5},
+        ]
+        self.assertIsNone(evaluate_trade(market, 0, "LONG"))
+
+    def test_evaluate_trade_accepts_full_24h_coverage(self):
+        market = [
+            {"time": 0.0, "bid": 100.0, "ask": 101.0, "mid": 100.5},
+            {"time": 24 * 3600.0, "bid": 110.0, "ask": 111.0, "mid": 110.5},
+        ]
+        self.assertIsNotNone(evaluate_trade(market, 0, "LONG"))
+
+    def test_evaluate_trade_uses_last_snapshot_at_or_before_target(self):
+        market = [
+            {"time": 0.0, "bid": 100.0, "ask": 101.0, "mid": 100.5},
+            {"time": 24 * 3600.0 - 60.0, "bid": 109.0, "ask": 110.0, "mid": 109.5},
+            {"time": 24 * 3600.0, "bid": 110.0, "ask": 111.0, "mid": 110.5},
+            {"time": 24 * 3600.0 + 60.0, "bid": 120.0, "ask": 121.0, "mid": 120.5},
+        ]
+        result = evaluate_trade(market, 0, "LONG")
+        self.assertEqual(result["exit_time"], 24 * 3600.0)
+
     def test_summary_drawdown_and_profit_factor(self):
         stats = summary([0.10, -0.05, 0.02])
         self.assertEqual(stats["N"], 3)

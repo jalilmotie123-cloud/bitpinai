@@ -427,6 +427,9 @@ def evaluate_trade(market, entry_index, side):
     times = [x["time"] for x in market]
     entry = market[entry_index]
     exit_target = entry["time"] + HORIZON_SEC
+    if market[-1]["time"] < exit_target:
+        return None
+
     exit_index = last_snapshot_at_or_before(times, entry_index, exit_target)
 
     # Use the last market snapshot at or before the 24h target, matching the
@@ -483,6 +486,11 @@ def attach_targets(scored, market):
         if idx >= len(market_times):
             rejected["entry_not_found"] += 1
             continue
+        exit_target = market[idx]["time"] + HORIZON_SEC
+        if market[-1]["time"] < exit_target:
+            rejected["incomplete_24h_market_coverage"] += 1
+            continue
+
         trade = evaluate_trade(market, idx, row["direction"])
         if trade is None:
             rejected["no_24h_exit"] += 1
