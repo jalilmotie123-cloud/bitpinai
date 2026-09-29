@@ -562,6 +562,61 @@ def make_time_ranges(start, end, count):
     return ranges
 
 
+def determine_primary_status(
+    primary_summary,
+    baseline_mean,
+    cost_robust,
+    positive_block_count,
+    sufficient_sample,
+    sufficient_coverage,
+):
+    """Apply the existing gate to the economically evaluated primary side."""
+    if not sufficient_sample or not sufficient_coverage:
+        return "INCONCLUSIVE"
+
+    median_positive = (
+        primary_summary["median"] is not None and
+        primary_summary["median"] > 0
+    )
+    holdout_positive = (
+        primary_summary["mean"] is not None and
+        primary_summary["mean"] > 0 and
+        primary_summary["cumulative_arithmetic"] is not None and
+        primary_summary["cumulative_arithmetic"] > 0
+    )
+    matched_improvement = (
+        primary_summary["mean"] - baseline_mean
+        if primary_summary["mean"] is not None and baseline_mean is not None
+        else None
+    )
+    clear_improvement = (
+        matched_improvement is not None and
+        matched_improvement >= 0.0025
+    )
+    multiple_blocks = positive_block_count >= 2
+
+    if (
+        holdout_positive and
+        median_positive and
+        cost_robust and
+        multiple_blocks and
+        clear_improvement
+    ):
+        return "GO-FOR-FURTHER-RESEARCH"
+
+    if (
+        primary_summary["mean"] is not None and
+        (
+            primary_summary["mean"] <= 0 or
+            primary_summary["cumulative_arithmetic"] <= 0 or
+            (primary_summary["median"] is not None and primary_summary["median"] <= 0)
+        )
+    ):
+        return "NO-GO"
+
+    return "INCONCLUSIVE"
+
+
 def main():
     parser = argparse.ArgumentParser(description="Selective 24h SOL feasibility test v1.")
     parser.add_argument("--market", default=None)
@@ -709,9 +764,20 @@ def main():
     selected_long = [x for x in holdout_trades if x["side"] == "LONG"]
     selected_short = [x for x in holdout_trades if x["side"] == "SHORT"]
     selected_both = holdout_trades
+    primary_group_name = (
+        "selected_long_plus_short"
+        if SHORT_EXECUTION_PROVEN else
+        "selected_long_primary"
+    )
+    primary_selected = (
+        selected_both
+        if SHORT_EXECUTION_PROVEN else
+        selected_long
+    )
 
-    # Independent-entry primary sequence: selected_both is already 24h separated.
-    holdout_summary = summary([x["net_return"] for x in selected_both])
+    # Independent-entry primary sequence: with unproven short execution,
+    # Long-only spot execution is the primary economic result.
+    holdout_summary = summary([x["net_return"] for x in primary_selected])
     baseline_summary = summary([x["net_return"] for x in baseline_holdout_long])
     baseline_short_summary = summary([x["net_return"] for x in baseline_holdout_short])
     selected_long_summary = summary([x["net_return"] for x in selected_long])
@@ -726,14 +792,14 @@ def main():
 
     ranges = make_time_ranges(records[0]["signal_time"], records[-1]["signal_time"], 4)
     block_rows = []
-    add_block_stats(block_rows, selected_both, ranges, "selected_long_plus_short")
+    add_block_stats(block_rows, primary_selected, ranges, primary_group_name)
     add_block_stats(block_rows, baseline_holdout_long, ranges, "baseline_all_long")
     add_block_stats(block_rows, baseline_holdout_short, ranges, "baseline_all_short")
 
     # Fixed cost sensitivity, no tuning.
     sensitivity = []
     for name, values in (
-        ("selected_long_plus_short", [x["net_return"] for x in selected_both]),
+        (primary_group_name, [x["net_return"] for x in primary_selected]),
         ("baseline_all_long", [x["net_return"] for x in baseline_holdout_long]),
         ("baseline_all_short", [x["net_return"] for x in baseline_holdout_short]),
     ):
@@ -762,7 +828,7 @@ def main():
 
     stable_blocks = [
         r for r in block_rows
-        if r["group"] == "selected_long_plus_short" and r["N"] > 0
+        if r["group"] == primary_group_name and r["N"] > 0
     ]
     positive_block_count = sum(
         1 for r in stable_blocks
@@ -789,13 +855,17 @@ def main():
     )
     selected_long_n = len(selected_long)
     selected_short_n = len(selected_short)
-    direction_matched_baseline_mean = None
-    baseline_parts = []
-    if selected_long_n > 0 and baseline_summary["mean"] is not None:
-        baseline_parts.append((selected_long_n, baseline_summary["mean"]))
+    if not SHORT_EXECUTION_PROVEN:
+        # Long-only spot baseline is the sole baseline used by the primary gate.
+        direction_matched_baseline_mean = baseline_summary["mean"]
+    else:
+        direction_matched_baseline_mean = None
+        baseline_parts = []
+        if selected_long_n > 0 and baseline_summary["mean"] is not None:
+            baseline_parts.append((selected_long_n, baseline_summary["mean"]))
     if selected_short_n > 0 and baseline_short_summary["mean"] is not None:
         baseline_parts.append((selected_short_n, baseline_short_summary["mean"]))
-    if baseline_parts:
+    if SHORT_EXECUTION_PROVEN and baseline_parts:
         direction_matched_baseline_mean = (
             sum(weight * value for weight, value in baseline_parts) /
             sum(weight for weight, _ in baseline_parts)
@@ -812,27 +882,14 @@ def main():
     no_tiny_sample = sufficient_sample
     multiple_blocks = positive_block_count >= 2
 
-    if not sufficient_sample or not sufficient_coverage or not SHORT_EXECUTION_PROVEN:
-        status = "INCONCLUSIVE"
-    elif (
-        holdout_positive and
-        median_positive and
-        cost_robust and
-        multiple_blocks and
-        clear_improvement
-    ):
-        status = "GO-FOR-FURTHER-RESEARCH"
-    elif (
-        holdout_summary["mean"] is not None and
-        (
-            holdout_summary["mean"] <= 0 or
-            holdout_summary["cumulative_arithmetic"] <= 0 or
-            (holdout_summary["median"] is not None and holdout_summary["median"] <= 0)
-        )
-    ):
-        status = "NO-GO"
-    else:
-        status = "INCONCLUSIVE"
+    status = determine_primary_status(
+        primary_summary=holdout_summary,
+        baseline_mean=direction_matched_baseline_mean,
+        cost_robust=cost_robust,
+        positive_block_count=positive_block_count,
+        sufficient_sample=sufficient_sample,
+        sufficient_coverage=sufficient_coverage,
+    )
 
     report = []
     report.append("SELECTIVE 24H FEASIBILITY TEST V1")
@@ -896,20 +953,18 @@ def main():
     report.append("Target rejects validation=%r" % dict(validation_reject))
     report.append("Target rejects holdout=%r" % dict(holdout_reject))
     report.append("")
-    report.append("HOLDOUT PRIMARY SELECTED LONG+SHORT")
-    report.append(repr(holdout_summary))
-    report.append("HOLDOUT SELECTED LONG")
+    report.append("selected_long_primary")
     report.append(repr(selected_long_summary))
-    report.append("HOLDOUT SELECTED SHORT")
+    report.append("short_not_evaluated")
     report.append(
-        "INCONCLUSIVE: short mechanics are not proven in supplied data."
+        "STATUS=NOT_EVALUATED: short execution mechanics are not proven in supplied data."
         if not SHORT_EXECUTION_PROVEN else repr(selected_short_summary)
     )
-    report.append("HOLDOUT BASELINE ALL LONG")
+    report.append("baseline_all_long")
     report.append(repr(baseline_summary))
-    report.append("HOLDOUT BASELINE ALL SHORT")
+    report.append("baseline_all_short")
     report.append(
-        "INCONCLUSIVE: short mechanics are not proven in supplied data."
+        "STATUS=NOT_EVALUATED: short execution mechanics are not proven in supplied data."
         if not SHORT_EXECUTION_PROVEN else repr(baseline_short_summary)
     )
     report.append("Selected minus baseline-all-long mean difference: %s" % improvement)
@@ -921,7 +976,7 @@ def main():
     report.append("Positive selected blocks=%d/4" % positive_block_count)
     report.append("Clear improvement threshold=0.25 percentage points over direction-matched baseline.")
     report.append("Cost robust through 10 bps=%s" % cost_robust)
-    report.append("Short economics status: %s" % ("EXECUTABLE" if SHORT_EXECUTION_PROVEN else "INCONCLUSIVE"))
+    report.append("Short economics status: %s" % ("EXECUTABLE" if SHORT_EXECUTION_PROVEN else "NOT_EVALUATED"))
     report.append("Sufficient selected holdout N=%s" % sufficient_sample)
     report.append("Sufficient full coverage=%s" % sufficient_coverage)
     report.append("")
@@ -968,13 +1023,10 @@ def main():
     rows_out = []
 
     groups = [
-        ("train_selected", train_trades),
-        ("train_selected_long", [x for x in train_trades if x["side"] == "LONG"]),
-        ("validation_selected", validation_trades),
-        ("validation_selected_long", [x for x in validation_trades if x["side"] == "LONG"]),
-        ("holdout_selected_long", selected_long),
-        ("holdout_selected_short", selected_short),
-        ("holdout_selected_long_plus_short", selected_both),
+        ("train_selected_long_primary", [x for x in train_trades if x["side"] == "LONG"]),
+        ("validation_selected_long_primary", [x for x in validation_trades if x["side"] == "LONG"]),
+        (primary_group_name, primary_selected),
+        ("short_not_evaluated", selected_short),
         ("holdout_all_long", baseline_holdout_long),
         ("holdout_all_short", baseline_holdout_short),
     ]
@@ -1004,7 +1056,7 @@ def main():
     for row in selected_both:
         rows_out.append({
             "section": "trade",
-            "group": "holdout_selected_long_plus_short",
+            "group": primary_group_name,
             "period": "",
             "N": 1,
             "mean_net": pct(row["net_return"]),

@@ -224,12 +224,12 @@ Requires a sufficiently sized/covered test and:
 
 Everything else, including:
 
-- short coverage;
-- too few non-overlapping selected holdout observations;
-- incomplete short mechanics;
+- too few non-overlapping selected **Long-primary** holdout observations;
 - instability across blocks;
 - positive at 0 bps but not robust to fixed additional cost sensitivity;
 - insufficient or ambiguous input data.
+
+Short execution mechanics are evaluated separately. When `SHORT_EXECUTION_PROVEN=False`, Short is `NOT_EVALUATED` and does not affect the Long-primary gate.
 
 A GO label means only that the fixed hypothesis is worth further confirmation. It does not mean profitability is proven and does not authorize live trading.
 

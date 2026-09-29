@@ -4,6 +4,8 @@ import unittest
 from selective_24h_feasibility_v1 import (
     FEE_SIDE,
     SCORE_THRESHOLD,
+    SHORT_EXECUTION_PROVEN,
+    determine_primary_status,
     evaluate_trade,
     score_record,
     select_nonoverlapping,
@@ -58,6 +60,19 @@ class Selective24HTests(unittest.TestCase):
         self.assertEqual(stats["N"], 3)
         self.assertGreater(stats["profit_factor"], 1.0)
         self.assertGreaterEqual(stats["max_drawdown"], 0.0)
+
+    def test_long_only_gate_ignores_unproven_short(self):
+        self.assertFalse(SHORT_EXECUTION_PROVEN)
+        primary = summary([0.010, 0.015, 0.012, 0.018, 0.011])
+        status = determine_primary_status(
+            primary_summary=primary,
+            baseline_mean=0.005,
+            cost_robust=True,
+            positive_block_count=2,
+            sufficient_sample=True,
+            sufficient_coverage=True,
+        )
+        self.assertEqual(status, "GO-FOR-FURTHER-RESEARCH")
 
 
 if __name__ == "__main__":
