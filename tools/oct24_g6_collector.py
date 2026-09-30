@@ -137,6 +137,7 @@ def main():
     print("Repo:", REPO_ROOT)
     print("Data:", DATA_DIR)
     print("START_PAGE=", sys.argv[1] if len(sys.argv) > 1 else "1")
+    print("FULL_SCAN=", len(sys.argv) > 2 and sys.argv[2].lower() == "--full")
     token_file = os.path.join(REPO_ROOT, "oct24_token.txt")
     token = ""
     if os.path.exists(token_file):
@@ -168,6 +169,7 @@ def main():
             print("ERROR: start page must be an integer")
             return 2
 
+    full_scan = len(sys.argv) > 2 and sys.argv[2].lower() == "--full"
     page = start_page
     new_count = 0
     pages = 0
@@ -262,12 +264,15 @@ def main():
         if len(items) < PAGE_SIZE:
             break
 
-        # Incremental runs: the API is newest-first. Once a complete page
-        # contains no unseen IDs, older pages are already present locally.
-        if len(items) == PAGE_SIZE and not page_new and page > 1:
-            break
-        if len(items) == PAGE_SIZE and not page_new and page == 1 and seen:
-            break
+        # IMPORTANT: page numbers can shift when new signals are inserted at the front.
+        # Therefore a fully-known page is NOT proof that older pages are already stored.
+        # Use --full for historical backfill/continuation so every page is scanned until
+        # the API returns fewer than PAGE_SIZE items or zero items.
+        if not full_scan:
+            if len(items) == PAGE_SIZE and not page_new and page > 1:
+                break
+            if len(items) == PAGE_SIZE and not page_new and page == 1 and seen:
+                break
 
         page += 1
         time.sleep(REQUEST_DELAY)
