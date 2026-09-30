@@ -191,6 +191,23 @@ def main():
         if r.status_code != 200:
             print("HTTP_STATUS=", r.status_code)
             print("BODY=", r.text[:1000])
+            # Keep already collected data durable on authentication/network failure.
+            write_manifest(
+                total_unique=len(seen),
+                first_id=first_id,
+                last_id=last_id,
+                pages=pages - 1,
+                new_count=new_count,
+            )
+            rc, out = git("add", "data/g6/live")
+            if rc == 0:
+                git("commit", "-m", "Checkpoint OCT24 G6 collection after page {}".format(page - 1))
+                push_rc, push_out = git("push")
+                print("CHECKPOINT_GIT_PUSH=", "OK" if push_rc == 0 else "FAILED")
+                if push_rc != 0:
+                    print("CHECKPOINT_GIT_ERROR=", push_out)
+            else:
+                print("CHECKPOINT_GIT_ADD_ERROR=", out)
             return 1
 
         try:
