@@ -23,7 +23,7 @@ from datetime import datetime, timezone
 
 import requests
 
-REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 DATA_DIR = os.path.join(REPO_ROOT, "data", "g6", "live")
 CHUNK_SIZE = 5000
 PAGE_SIZE = 100
