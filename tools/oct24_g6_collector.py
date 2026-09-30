@@ -229,12 +229,12 @@ def main():
         if len(items) < PAGE_SIZE:
             break
 
-        # Incremental runs stop after a page contains no unseen IDs.
-        if len(seen) > len(page_new) and consecutive_all_seen_pages >= 1:
-            # There may be one page of overlap; the next page is not needed for
-            # normal incremental collection because API results are newest-first.
-            if new_count > 0:
-                break
+        # Incremental runs: the API is newest-first. Once a complete page
+        # contains no unseen IDs, older pages are already present locally.
+        if len(items) == PAGE_SIZE and not page_new and page > 1:
+            break
+        if len(items) == PAGE_SIZE and not page_new and page == 1 and seen:
+            break
 
         page += 1
         time.sleep(REQUEST_DELAY)
