@@ -3,10 +3,10 @@
   "endpoint": "https://api.oct24.ai/v1/g6/signals/history",
   "page_size": 100,
   "total_unique_stored": 162763,
-  "new_records_this_run": 120468,
-  "first_id_seen_in_storage": 120591,
-  "last_id_seen_in_storage": 1,
-  "pages_requested_this_run": 1207,
-  "updated_at_utc": "2026-09-30T12:49:53.308407+00:00",
+  "new_records_this_run": 0,
+  "first_id_seen_in_storage": null,
+  "last_id_seen_in_storage": null,
+  "pages_requested_this_run": 0,
+  "updated_at_utc": "2026-09-30T13:07:08.751631+00:00",
   "token_stored": false
 }
