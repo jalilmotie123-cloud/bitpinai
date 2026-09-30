@@ -14,7 +14,6 @@ OCT24 G6 signal history collector.
 Compatible with Python 3.8.
 """
 
-import getpass
 import json
 import os
 import subprocess
@@ -138,7 +137,15 @@ def main():
     print("Repo:", REPO_ROOT)
     print("Data:", DATA_DIR)
     print("START_PAGE=", sys.argv[1] if len(sys.argv) > 1 else "1")
-    token = getpass.getpass("Bearer token (input hidden): ").strip()
+    token_file = os.path.join(REPO_ROOT, "oct24_token.txt")
+    token = ""
+    if os.path.exists(token_file):
+        with open(token_file, "r", encoding="utf-8") as fh:
+            token = fh.read().strip()
+        print("TOKEN_SOURCE=oct24_token.txt")
+    else:
+        token = input("Bearer token: ").strip()
+        print("WARNING: token was entered visibly; do not save or paste it into Git.")
     if not token:
         print("ERROR: token is empty")
         return 2
