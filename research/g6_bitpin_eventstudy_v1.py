@@ -134,8 +134,19 @@ def load_g6():
 
 def load_market(path):
     rows = []
+    nul_count = 0
+
+    def clean_lines(fh):
+        nonlocal nul_count
+        for line in fh:
+            n = line.count("\\x00")
+            if n:
+                nul_count += n
+                line = line.replace("\\x00", "")
+            yield line
+
     with open(path, "r", encoding="utf-8-sig", newline="") as fh:
-        r = csv.DictReader(fh)
+        r = csv.DictReader(clean_lines(fh))
         fields = set(r.fieldnames or [])
         needed = {"time", "symbol", "bid", "ask", "mid"}
         if not needed.issubset(fields):
@@ -158,7 +169,7 @@ def load_market(path):
                 continue
             rows.append((ts, bid, ask, mid))
     rows.sort(key=lambda z: z[0])
-    return rows
+    return rows, nul_count
 
 
 def sample_stats(values):
@@ -172,7 +183,7 @@ def main():
     os.makedirs(os.path.dirname(OUT_CSV), exist_ok=True)
     market_file = choose_market_file()
     g6 = load_g6()
-    market = load_market(market_file)
+    market, nul_count = load_market(market_file)
 
     if not g6:
         raise ValueError("No usable G6 records.")
@@ -263,6 +274,7 @@ def main():
     lines.append("=" * 68)
     lines.append("G6 records loaded: %d" % len(g6))
     lines.append("Bitpin SOL rows loaded: %d" % len(market))
+    lines.append("NUL bytes removed while reading market file: %d" % nul_count)
     lines.append("G6 time range UTC: %s -> %s" % (
         datetime.fromtimestamp(g6_start, timezone.utc).isoformat(),
         datetime.fromtimestamp(g6_end, timezone.utc).isoformat(),
@@ -316,6 +328,7 @@ def main():
 
     print("G6_RECORDS=", len(g6))
     print("BITPIN_SOL_ROWS=", len(market))
+    print("NUL_BYTES_REMOVED=", nul_count)
     print("OVERLAP_EVENTS=", len(events))
     print("ALIGNMENT_MEDIAN_SEC=%.3f" % ds["median"])
     print("MARKET_FILE=", market_file)
