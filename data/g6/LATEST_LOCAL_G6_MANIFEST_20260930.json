@@ -1,0 +1,40 @@
+{
+  "source": "OCT24 G6 history API",
+  "latest_local_state": {
+    "total_unique_stored": 238236,
+    "new_records_this_run": 75473,
+    "first_id_seen_in_storage": 238238,
+    "last_id_seen_in_storage": 162646,
+    "pages_requested": 756,
+    "updated": "2026-09-30T13:27:06Z",
+    "token_stored": false,
+    "jsonl_files": 46
+  },
+  "full_scan_audit": {
+    "rows": 238236,
+    "unique_id": 238236,
+    "duplicate_rows": 0,
+    "duplicate_id_values": 0,
+    "min_id": 1,
+    "max_id": 238238,
+    "id_gaps": [
+      132848,
+      175711
+    ],
+    "earliest_opened_at": "2026-04-16T18:28:14.542Z",
+    "latest_opened_at": "2026-09-30T13:18:06.935Z",
+    "signal_types": {
+      "Gold": 119551,
+      "Silver": 118685
+    },
+    "result_types": {
+      "TP": 132593,
+      "SL": 105643
+    }
+  },
+  "github_transfer": {
+    "snapshot_branch": "g6-snapshot-20260929",
+    "snapshot_file": "data/g6/oct24_g6_raw_storage_20260929.json",
+    "latest_split_jsonl_transferred": false
+  }
+}
