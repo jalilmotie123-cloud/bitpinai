@@ -13,3 +13,6 @@ tradeflow_features_v1.csv
 tradeflow_features_v2.csv
 tradeflow_features_v3.csv
 tradeflow_features_v3_backup_20260918.csv
+
+# Local OCT24 credential; never commit
+/oct24_token.txt
