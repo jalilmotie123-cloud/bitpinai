@@ -1,0 +1,12 @@
+{
+  "source": "OCT24 G6 signals history API",
+  "endpoint": "https://api.oct24.ai/v1/g6/signals/history",
+  "page_size": 100,
+  "total_unique_stored": 42295,
+  "new_records_this_run": 0,
+  "first_id_seen_in_storage": null,
+  "last_id_seen_in_storage": null,
+  "pages_requested_this_run": 0,
+  "updated_at_utc": "2026-09-30T12:20:57.474489+00:00",
+  "token_stored": false
+}
