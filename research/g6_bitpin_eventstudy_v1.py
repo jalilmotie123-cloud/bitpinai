@@ -139,10 +139,10 @@ def load_market(path):
     def clean_lines(fh):
         nonlocal nul_count
         for line in fh:
-            n = line.count("\\x00")
+            n = line.count("\x00")
             if n:
                 nul_count += n
-                line = line.replace("\\x00", "")
+                line = line.replace("\x00", "")
             yield line
 
     with open(path, "r", encoding="utf-8-sig", newline="") as fh:
