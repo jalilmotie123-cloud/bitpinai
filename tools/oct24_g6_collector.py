@@ -137,6 +137,7 @@ def main():
     print("OCT24 G6 collector")
     print("Repo:", REPO_ROOT)
     print("Data:", DATA_DIR)
+    print("START_PAGE=", sys.argv[1] if len(sys.argv) > 1 else "1")
     token = getpass.getpass("Bearer token (input hidden): ").strip()
     if not token:
         print("ERROR: token is empty")
@@ -152,7 +153,15 @@ def main():
         "authorization": "Bearer " + token,
     })
 
-    page = 1
+    start_page = 1
+    if len(sys.argv) > 1:
+        try:
+            start_page = max(1, int(sys.argv[1]))
+        except ValueError:
+            print("ERROR: start page must be an integer")
+            return 2
+
+    page = start_page
     new_count = 0
     pages = 0
     consecutive_all_seen_pages = 0
