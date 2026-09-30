@@ -2,11 +2,11 @@
   "source": "OCT24 G6 signals history API",
   "endpoint": "https://api.oct24.ai/v1/g6/signals/history",
   "page_size": 100,
-  "total_unique_stored": 162763,
-  "new_records_this_run": 0,
-  "first_id_seen_in_storage": null,
-  "last_id_seen_in_storage": null,
-  "pages_requested_this_run": 0,
-  "updated_at_utc": "2026-09-30T13:09:24.699758+00:00",
+  "total_unique_stored": 238236,
+  "new_records_this_run": 75473,
+  "first_id_seen_in_storage": 238238,
+  "last_id_seen_in_storage": 162646,
+  "pages_requested_this_run": 756,
+  "updated_at_utc": "2026-09-30T13:27:06.387290+00:00",
   "token_stored": false
 }
