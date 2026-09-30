@@ -37,3 +37,22 @@ The next run is intended to paginate through the history endpoint and record:
 
 ## Continuity rule
 Subsequent OCT24 G6 extraction results should be appended as dated logs and/or data artifacts under `data/g6/`. Existing raw snapshots must not be overwritten. Tokens, cookies, Authorization headers, and other credentials must never be committed.
+
+
+## 2026-09-30 deep pagination run
+Observed pagination output:
+- Valid pages completed: 754
+- Records received: 75,400
+- Unique IDs: 75,394
+- Duplicate IDs: 6
+- First ID: 238,130
+- Last ID: 162,736
+- Page 755 request returned HTTP 401
+
+Important: HTTP 401 at page 755 is an authentication failure, NOT evidence that the history ended. Therefore the current extraction is a partial authenticated snapshot and should not be labeled as the complete history.
+
+Next safe continuation:
+1. Refresh/re-authenticate the OCT24 Bearer token.
+2. Resume pagination from page 755 (or recheck pages 754-755 to verify continuity).
+3. Preserve the 75,400-record result; do not overwrite it.
+4. Store subsequent pages as a new dated artifact and append the verification log.
